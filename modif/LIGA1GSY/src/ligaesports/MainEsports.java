@@ -20,81 +20,227 @@ public class MainEsports {
             System.out.println();
             System.out.println("===== LIGA NEXUS 1GSY =====");
             System.out.println("1. Mostrar personas");
-            System.out.println("2. Mostrar jugadores");
-            System.out.println("3. Mostrar equipos");
-            System.out.println("4. Mostrar plantillas completas");
-            System.out.println("5. Crear jugador libre");
-            System.out.println("6. Mercado de fichajes");
-            System.out.println("7. Mostrar calendario");
-            System.out.println("8. Ver siguiente partido");
-            System.out.println("9. Apostar al siguiente partido");
-            System.out.println("10. Disputar siguiente partido");
-            System.out.println("11. Mostrar clasificación");
-            System.out.println("12. Mostrar eventos");
-            System.out.println("13. Mostrar historial");
-            System.out.println("14. Deshacer última acción");
-            System.out.println("15. Entregar premios finales");
-            System.out.println("16. Salir");
-            opcion = leerEntero(teclado, "Elige una opción: ", 1, 16);
+            System.out.println("2. Buscar persona por ID");
+            System.out.println("3. Modificar persona");
+            System.out.println("4. Eliminar persona");
+            System.out.println("5. Mostrar jugadores");
+            System.out.println("6. Mostrar equipos");
+            System.out.println("7. Mostrar plantillas completas");
+            System.out.println("8. Crear jugador libre");
+            System.out.println("9. Mercado de fichajes");
+            System.out.println("10. Sustituir titular por suplente");
+            System.out.println("11. Mostrar calendario");
+            System.out.println("12. Consultar jornada");
+            System.out.println("13. Ver siguiente partido");
+            System.out.println("14. Mostrar partidos pendientes");
+            System.out.println("15. Vaciar cola de partidos");
+            System.out.println("16. Apostar al siguiente partido");
+            System.out.println("17. Registrar resultado manual");
+            System.out.println("18. Disputar siguiente partido automáticamente");
+            System.out.println("19. Gestionar incidencias y sanciones");
+            System.out.println("20. Mostrar clasificación");
+            System.out.println("21. Mostrar eventos");
+            System.out.println("22. Mostrar historial");
+            System.out.println("23. Deshacer última acción");
+            System.out.println("24. Entregar premios finales");
+            System.out.println("25. Salir");
+            opcion = leerEntero(teclado, "Elige una opción: ", 1, 25);
 
             if (opcion == 1) {
                 liga.mostrarPersonas();
 
             } else if (opcion == 2) {
-                liga.mostrarJugadores();
+                String id = leerTexto(teclado, "ID de la persona: ");
+                liga.mostrarPersonaPorId(id);
 
             } else if (opcion == 3) {
-                liga.mostrarEquipos();
+                modificarPersonaPorTeclado(teclado, liga);
 
             } else if (opcion == 4) {
+                String id = leerTexto(teclado, "ID de la persona a eliminar: ");
+                liga.eliminarPersona(id);
+
+            } else if (opcion == 5) {
+                liga.mostrarJugadores();
+
+            } else if (opcion == 6) {
+                liga.mostrarEquipos();
+
+            } else if (opcion == 7) {
                 for (Equipo equipo : liga.getEquipos()) {
                     equipo.mostrarPlantilla();
                     System.out.println("----------------------");
                 }
 
-            } else if (opcion == 5) {
+            } else if (opcion == 8) {
                 crearJugadorPorTeclado(teclado, liga);
 
-            } else if (opcion == 6) {
+            } else if (opcion == 9) {
                 mercadoFichajes(teclado, liga);
 
-            } else if (opcion == 7) {
-                liga.mostrarCalendario();
-
-            } else if (opcion == 8) {
-                liga.verSiguientePartido();
-
-            } else if (opcion == 9) {
-                apostarPorTeclado(teclado, liga);
-
             } else if (opcion == 10) {
-                gestionarInicioPartido(teclado, liga);
+                sustituirPorTeclado(teclado, liga);
 
             } else if (opcion == 11) {
-                liga.mostrarClasificacion();
+                liga.mostrarCalendario();
 
             } else if (opcion == 12) {
-                liga.mostrarEventos();
+                int jornada = leerEntero(teclado, "Jornada: ", 1, 10);
+                liga.mostrarJornada(jornada);
 
             } else if (opcion == 13) {
-                liga.mostrarHistorial();
+                liga.verSiguientePartido();
 
             } else if (opcion == 14) {
-                liga.deshacerUltimaAccion();
+                liga.mostrarPartidosPendientes();
 
             } else if (opcion == 15) {
-                liga.entregarPremiosFinales();
+                liga.vaciarPartidosPendientes();
 
             } else if (opcion == 16) {
+                apostarPorTeclado(teclado, liga);
+
+            } else if (opcion == 17) {
+                registrarResultadoPorTeclado(teclado, liga);
+
+            } else if (opcion == 18) {
+                gestionarInicioPartido(teclado, liga);
+
+            } else if (opcion == 19) {
+                gestionarIncidencias(teclado, liga);
+
+            } else if (opcion == 20) {
+                liga.mostrarClasificacion();
+
+            } else if (opcion == 21) {
+                liga.mostrarEventos();
+
+            } else if (opcion == 22) {
+                liga.mostrarHistorial();
+
+            } else if (opcion == 23) {
+                liga.deshacerUltimaAccion();
+
+            } else if (opcion == 24) {
+                liga.entregarPremiosFinales();
+
+            } else if (opcion == 25) {
                 System.out.println("Saliendo del programa...");
 
             } else {
                 System.out.println("Opción no válida.");
             }
 
-        } while (opcion != 16);
+        } while (opcion != 25);
 
         teclado.close();
+    }
+
+    public static void modificarPersonaPorTeclado(Scanner teclado, Liga liga) {
+        String id = leerTexto(teclado, "ID de la persona a modificar: ");
+        String nombre = leerTexto(teclado, "Nuevo nombre: ");
+        String nickname = leerTexto(teclado, "Nuevo nickname: ");
+        int edad = leerEntero(teclado, "Nueva edad: ", 1, 120);
+        double salarioBase = leerDouble(teclado, "Nuevo salario base: ", 0, Double.MAX_VALUE);
+
+        liga.modificarDatosPersona(id, nombre, nickname, edad, salarioBase);
+    }
+
+    public static void sustituirPorTeclado(Scanner teclado, Liga liga) {
+        String nombreEquipo = leerTexto(teclado, "Nombre del equipo: ");
+        Rol rol = pedirRol(teclado);
+        String idSuplente = leerTexto(teclado, "ID del suplente que entra: ");
+
+        liga.sustituirTitularPorSuplente(nombreEquipo, rol, idSuplente);
+    }
+
+    public static void registrarResultadoPorTeclado(Scanner teclado, Liga liga) {
+        Partido partido = liga.obtenerSiguientePartido();
+
+        if (partido == null) {
+            System.out.println("No hay partidos pendientes.");
+            return;
+        }
+
+        partido.mostrarPartido();
+        int puntosLocal = leerEntero(teclado, "Puntos equipo local: ", 0, 999);
+        int puntosVisitante = leerEntero(teclado, "Puntos equipo visitante: ", 0, 999);
+
+        liga.registrarResultadoManualSiguientePartido(puntosLocal, puntosVisitante);
+    }
+
+    public static void gestionarIncidencias(Scanner teclado, Liga liga) {
+        System.out.println();
+        System.out.println("=== INCIDENCIAS Y SANCIONES ===");
+        System.out.println("1. Registrar incidencia");
+        System.out.println("2. Listar incidencias");
+        System.out.println("3. Buscar incidencias por equipo");
+        System.out.println("4. Buscar incidencias por jugador");
+        int opcion = leerEntero(teclado, "Elige opción: ", 1, 4);
+
+        if (opcion == 1) {
+            registrarIncidenciaPorTeclado(teclado, liga);
+        } else if (opcion == 2) {
+            liga.listarIncidencias();
+        } else if (opcion == 3) {
+            String nombreEquipo = leerTexto(teclado, "Nombre del equipo: ");
+            liga.buscarIncidenciasPorEquipo(nombreEquipo);
+        } else {
+            String idJugador = leerTexto(teclado, "ID del jugador: ");
+            liga.buscarIncidenciasPorJugador(idJugador);
+        }
+    }
+
+    public static void registrarIncidenciaPorTeclado(Scanner teclado, Liga liga) {
+        String id = leerTexto(teclado, "ID de la incidencia: ");
+        TipoIncidencia tipo = pedirTipoIncidencia(teclado);
+        String descripcion = leerTexto(teclado, "Descripción: ");
+
+        Equipo equipo = null;
+        Jugador jugador = null;
+
+        String nombreEquipo = leerTextoOpcional(teclado, "Equipo relacionado (Enter si no hay): ");
+        if (!nombreEquipo.equals("")) {
+            equipo = liga.buscarEquipoPorNombre(nombreEquipo);
+
+            if (equipo == null) {
+                System.out.println("No existe ese equipo. La incidencia se guardará sin equipo relacionado.");
+            }
+        }
+
+        String idJugador = leerTextoOpcional(teclado, "Jugador relacionado (Enter si no hay): ");
+        if (!idJugador.equals("")) {
+            jugador = liga.buscarJugadorPorId(idJugador);
+
+            if (jugador == null) {
+                System.out.println("No existe ese jugador. La incidencia se guardará sin jugador relacionado.");
+            }
+        }
+
+        liga.registrarIncidencia(new Incidencia(id, tipo, descripcion, equipo, jugador));
+        System.out.println("Incidencia registrada correctamente.");
+    }
+
+    public static TipoIncidencia pedirTipoIncidencia(Scanner teclado) {
+        System.out.println("Tipo de incidencia:");
+        System.out.println("1. SANCION");
+        System.out.println("2. EXPULSION");
+        System.out.println("3. ERROR_TECNICO");
+        System.out.println("4. PARTIDO_APLAZADO");
+        System.out.println("5. OTRO");
+        int opcion = leerEntero(teclado, "Elige tipo: ", 1, 5);
+
+        if (opcion == 1) {
+            return TipoIncidencia.SANCION;
+        } else if (opcion == 2) {
+            return TipoIncidencia.EXPULSION;
+        } else if (opcion == 3) {
+            return TipoIncidencia.ERROR_TECNICO;
+        } else if (opcion == 4) {
+            return TipoIncidencia.PARTIDO_APLAZADO;
+        }
+
+        return TipoIncidencia.OTRO;
     }
 
     public static void gestionarInicioPartido(Scanner teclado, Liga liga) {
@@ -221,6 +367,11 @@ public class MainEsports {
         } while (texto.equals(""));
 
         return texto;
+    }
+
+    public static String leerTextoOpcional(Scanner teclado, String mensaje) {
+        System.out.print(mensaje);
+        return teclado.nextLine().trim();
     }
 
     public static int leerEntero(Scanner teclado, String mensaje, int minimo, int maximo) {

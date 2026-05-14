@@ -95,6 +95,37 @@ public class Equipo {
         return suplentes.remove(jugador);
     }
 
+    public void sustituirTitularPorSuplente(Rol rol, Jugador suplente) throws RolNoDisponibleException, JugadorSancionadoException {
+        if (rol == null) {
+            throw new IllegalArgumentException("El rol no puede estar vacío.");
+        }
+
+        if (suplente == null) {
+            throw new IllegalArgumentException("El suplente no puede estar vacío.");
+        }
+
+        if (suplente.getRol() != rol) {
+            throw new RolNoDisponibleException("El suplente no tiene el rol " + rol + ".");
+        }
+
+        if (suplente.isSancionado()) {
+            throw new JugadorSancionadoException("El suplente " + suplente.getNickname() + " está sancionado.");
+        }
+
+        if (!suplentes.contains(suplente)) {
+            throw new RolNoDisponibleException("Ese jugador no está en la lista de suplentes del equipo.");
+        }
+
+        int posicion = rol.ordinal();
+        Jugador titularAnterior = titulares[posicion];
+        titulares[posicion] = suplente;
+        suplentes.remove(suplente);
+
+        if (titularAnterior != null) {
+            suplentes.add(titularAnterior);
+        }
+    }
+
     public boolean contieneJugador(Jugador jugador) {
         for (Jugador titular : titulares) {
             if (titular == jugador) {

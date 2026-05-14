@@ -31,9 +31,9 @@ public class Jugador extends PersonaLiga implements Entrenable {
     }
 
     @Override
-    public boolean entrenar() {
+    public void entrenar() {
         if (nivelMecanico >= 100 && nivelEstrategico >= 100) {
-            return false;
+            return;
         }
 
         nivelMecanico += 2;
@@ -47,7 +47,6 @@ public class Jugador extends PersonaLiga implements Entrenable {
             nivelEstrategico = 100;
         }
 
-        return true;
     }
 
     @Override

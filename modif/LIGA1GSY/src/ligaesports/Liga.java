@@ -303,6 +303,36 @@ public class Liga {
         }
     }
 
+    public void vaciarPartidosPendientes() {
+        partidosPendientes.clear();
+        registrarAccion("Vaciado de la cola de partidos pendientes.");
+        System.out.println("Cola de partidos pendientes vaciada.");
+    }
+
+    public void registrarResultadoManualSiguientePartido(int puntosLocal, int puntosVisitante) {
+        Partido partido = partidosPendientes.peek();
+
+        if (partido == null) {
+            System.out.println("No hay partidos pendientes.");
+            return;
+        }
+
+        try {
+            partido.registrarResultadoManual(puntosLocal, puntosVisitante);
+            partidosPendientes.poll();
+            registrarAccion("Resultado manual registrado: " + partido.getId());
+
+            System.out.println("Resultado registrado correctamente.");
+            partido.mostrarPartido();
+
+            if (partidosPendientes.isEmpty()) {
+                entregarPremiosFinales();
+            }
+        } catch (PartidoInvalidoException | JugadorSancionadoException | RolNoDisponibleException e) {
+            System.out.println("No se pudo registrar el resultado: " + e.getMessage());
+        }
+    }
+
     public void registrarIncidencia(Incidencia incidencia) {
         incidencias.add(incidencia);
         incidencia.aplicarSancion();
@@ -310,9 +340,58 @@ public class Liga {
     }
 
     public void listarIncidencias() {
+        if (incidencias.isEmpty()) {
+            System.out.println("No hay incidencias registradas.");
+            return;
+        }
+
         for (Incidencia incidencia : incidencias) {
             incidencia.mostrarIncidencia();
             System.out.println("----------------------");
+        }
+    }
+
+    public void buscarIncidenciasPorEquipo(String nombreEquipo) {
+        Equipo equipo = buscarEquipoPorNombre(nombreEquipo);
+        boolean encontrada = false;
+
+        if (equipo == null) {
+            System.out.println("No existe ningún equipo con ese nombre.");
+            return;
+        }
+
+        for (Incidencia incidencia : incidencias) {
+            if (incidencia.getEquipoRelacionado() == equipo) {
+                incidencia.mostrarIncidencia();
+                System.out.println("----------------------");
+                encontrada = true;
+            }
+        }
+
+        if (!encontrada) {
+            System.out.println("No hay incidencias para ese equipo.");
+        }
+    }
+
+    public void buscarIncidenciasPorJugador(String idJugador) {
+        Jugador jugador = buscarJugadorPorId(idJugador);
+        boolean encontrada = false;
+
+        if (jugador == null) {
+            System.out.println("No existe ningún jugador con ese ID.");
+            return;
+        }
+
+        for (Incidencia incidencia : incidencias) {
+            if (incidencia.getJugadorRelacionado() == jugador) {
+                incidencia.mostrarIncidencia();
+                System.out.println("----------------------");
+                encontrada = true;
+            }
+        }
+
+        if (!encontrada) {
+            System.out.println("No hay incidencias para ese jugador.");
         }
     }
 
@@ -338,10 +417,108 @@ public class Liga {
         }
     }
 
+    public void mostrarJornada(int jornada) {
+        if (jornada < 1 || jornada > calendario.length) {
+            System.out.println("La jornada debe estar entre 1 y " + calendario.length + ".");
+            return;
+        }
+
+        int fila = jornada - 1;
+        boolean hayPartidos = false;
+
+        System.out.println("Jornada " + jornada);
+
+        for (int i = 0; i < calendario[fila].length; i++) {
+            Partido partido = calendario[fila][i];
+
+            if (partido != null) {
+                partido.mostrarPartido();
+                System.out.println("----------------------");
+                hayPartidos = true;
+            }
+        }
+
+        if (!hayPartidos) {
+            System.out.println("No hay partidos en esta jornada.");
+        }
+    }
+
     public void mostrarPersonas() {
         for (PersonaLiga persona : personas) {
             System.out.println(persona);
         }
+    }
+
+    public PersonaLiga buscarPersonaPorId(String id) {
+        if (id == null || id.trim().equals("")) {
+            return null;
+        }
+
+        for (PersonaLiga persona : personas) {
+            if (persona.getId().equalsIgnoreCase(id)) {
+                return persona;
+            }
+        }
+
+        return null;
+    }
+
+    public void mostrarPersonaPorId(String id) {
+        PersonaLiga persona = buscarPersonaPorId(id);
+
+        if (persona == null) {
+            System.out.println("No existe ninguna persona con ese ID.");
+        } else {
+            persona.mostrarResumen();
+        }
+    }
+
+    public void modificarDatosPersona(String id, String nombre, String nickname, int edad, double salarioBase) {
+        PersonaLiga persona = buscarPersonaPorId(id);
+
+        if (persona == null) {
+            System.out.println("No existe ninguna persona con ese ID.");
+            return;
+        }
+
+        try {
+            persona.setNombre(nombre);
+            persona.setNickname(nickname);
+            persona.setEdad(edad);
+            persona.setSalarioBase(salarioBase);
+            registrarAccion("Modificación de persona: " + persona.getId());
+            System.out.println("Persona modificada correctamente.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("No se pudo modificar la persona: " + e.getMessage());
+        }
+    }
+
+    public void eliminarPersona(String id) {
+        PersonaLiga persona = buscarPersonaPorId(id);
+
+        if (persona == null) {
+            System.out.println("No existe ninguna persona con ese ID.");
+            return;
+        }
+
+        if (persona instanceof Jugador && buscarEquipoDeJugador((Jugador) persona) != null) {
+            System.out.println("No se puede eliminar: el jugador pertenece a un equipo.");
+            return;
+        }
+
+        if (persona instanceof Entrenador) {
+            for (Equipo equipo : equipos) {
+                if (equipo.getEntrenador() == persona) {
+                    System.out.println("No se puede eliminar: el entrenador está asignado a un equipo.");
+                    return;
+                }
+            }
+        }
+
+        personas.remove(persona);
+        idsPersonas.remove(normalizarClave(persona.getId()));
+        registrarAccion("Eliminación de persona: " + persona.getId());
+        System.out.println("Persona eliminada correctamente.");
     }
 
     public void mostrarJugadores() {
@@ -425,6 +602,29 @@ public class Liga {
         }
 
         return null;
+    }
+
+    public void sustituirTitularPorSuplente(String nombreEquipo, Rol rol, String idSuplente) {
+        Equipo equipo = buscarEquipoPorNombre(nombreEquipo);
+        Jugador suplente = buscarJugadorPorId(idSuplente);
+
+        if (equipo == null) {
+            System.out.println("No existe ningún equipo con ese nombre.");
+            return;
+        }
+
+        if (suplente == null) {
+            System.out.println("No existe ningún jugador con ese ID.");
+            return;
+        }
+
+        try {
+            equipo.sustituirTitularPorSuplente(rol, suplente);
+            registrarAccion("Sustitución en " + equipo.getNombre() + ": rol " + rol);
+            System.out.println("Sustitución realizada correctamente.");
+        } catch (RolNoDisponibleException | JugadorSancionadoException | IllegalArgumentException e) {
+            System.out.println("No se pudo sustituir: " + e.getMessage());
+        }
     }
 
     public void ficharJugadorLibreComoSuplente(String idJugador, String nombreEquipo) {

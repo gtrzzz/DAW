@@ -1,6 +1,6 @@
 package ligaesports;
 
 public interface Entrenable {
-    boolean entrenar();
+    void entrenar();
     double calcularRendimiento();
 }

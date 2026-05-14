@@ -101,6 +101,32 @@ public class Partido {
             }
         }
 
+        finalizarPartido(convocatoriaLocal, convocatoriaVisitante);
+    }
+
+    public void registrarResultadoManual(int puntosLocal, int puntosVisitante) throws PartidoInvalidoException, JugadorSancionadoException, RolNoDisponibleException {
+        if (disputado) {
+            throw new PartidoInvalidoException("Este partido ya ha sido disputado.");
+        }
+
+        if (puntosLocal < 0 || puntosVisitante < 0) {
+            throw new PartidoInvalidoException("Los puntos no pueden ser negativos.");
+        }
+
+        if (puntosLocal == puntosVisitante) {
+            throw new PartidoInvalidoException("El resultado no puede quedar empatado.");
+        }
+
+        Jugador[] convocatoriaLocal = local.generarConvocatoriaValida();
+        Jugador[] convocatoriaVisitante = visitante.generarConvocatoriaValida();
+
+        this.puntosLocal = puntosLocal;
+        this.puntosVisitante = puntosVisitante;
+
+        finalizarPartido(convocatoriaLocal, convocatoriaVisitante);
+    }
+
+    private void finalizarPartido(Jugador[] convocatoriaLocal, Jugador[] convocatoriaVisitante) {
         actualizarEstadisticas(convocatoriaLocal, convocatoriaVisitante);
         elegirMvpAleatorio(convocatoriaLocal, convocatoriaVisitante);
         generarHighlight();
