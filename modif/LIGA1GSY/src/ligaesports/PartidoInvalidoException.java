@@ -1,7 +1,7 @@
 package ligaesports;
 
-public class PartidoInvalidoException extends Exception { //como el resto de excepciones (explicado en PersonaDuplicadaException)
-    public PartidoInvalidoException(String mensaje) {
-        super(mensaje);
+public class PartidoInvalidoException extends Exception { //excepción propia para controlar partidos incorrectos
+    public PartidoInvalidoException(String mensaje) { //constructor que recibe el mensaje del error
+        super(mensaje); //mando el mensaje a la clase exception
     }
 }

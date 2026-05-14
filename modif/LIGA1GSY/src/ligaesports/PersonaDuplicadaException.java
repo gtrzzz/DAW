@@ -1,7 +1,7 @@
 package ligaesports;
 
-public class PersonaDuplicadaException extends Exception { //crea excepción propia que hereda de exception
-    public PersonaDuplicadaException(String mensaje) { //constructor con parámetro de entrada de String  
-        super(mensaje); 
+public class PersonaDuplicadaException extends Exception { //excepción propia para controlar personas repetidas
+    public PersonaDuplicadaException(String mensaje) { //constructor que recibe el mensaje del error
+        super(mensaje); //mando el mensaje a la clase exception
     }
 }

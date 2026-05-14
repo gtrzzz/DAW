@@ -12,11 +12,11 @@ public abstract class PersonaLiga { //creo la clase abstracta PersonaLiga
     }
 
     public PersonaLiga(String id, String nombre, String nickname, int edad, double salarioBase) { //constructor con parámetros de entrada para polimorfismo
-        setId(id);
-        setNombre(nombre);
-        setNickname(nickname);
-        setEdad(edad);
-        setSalarioBase(salarioBase);
+        setId(id); //uso los setters para que se validen los datos desde el principio
+        setNombre(nombre); //guardo el nombre validado
+        setNickname(nickname); //guardo el nickname validado
+        setEdad(edad); //guardo la edad validada
+        setSalarioBase(salarioBase); //guardo el salario validado
     }
 
     public abstract double calcularCosteMensual(); //métodos abstractos que de momento solo los he definido porque un jugador y un entrenador pueden tener distintas maneras de calcular el coste 
@@ -27,60 +27,60 @@ public abstract class PersonaLiga { //creo la clase abstracta PersonaLiga
         return id;
     }
 
-    public void setId(String id) {
-        if (id == null || id.trim().equals("")) {
+    public void setId(String id) { //setter del id
+        if (id == null || id.trim().equals("")) { //compruebo que el id no sea nulo ni vacío
             throw new IllegalArgumentException("El ID no puede estar vacío.");
         }
 
-        this.id = id.trim();
+        this.id = id.trim(); //guardo el id sin espacios al principio o al final
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombre() { //getter del nombre
+        return nombre; //devuelve el nombre real
     }
 
-    public void setNombre(String nombre) {
-        if (nombre == null || nombre.trim().equals("")) {
+    public void setNombre(String nombre) { //setter del nombre
+        if (nombre == null || nombre.trim().equals("")) { //compruebo que el nombre no esté vacío
             throw new IllegalArgumentException("El nombre no puede estar vacío.");
         }
 
-        this.nombre = nombre.trim();
+        this.nombre = nombre.trim(); //guardo el nombre quitando espacios innecesarios
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickname() { //getter del nickname
+        return nickname; //devuelve el nickname
     }
 
-    public void setNickname(String nickname) {
-        if (nickname == null || nickname.trim().equals("")) {
+    public void setNickname(String nickname) { //setter del nickname
+        if (nickname == null || nickname.trim().equals("")) { //compruebo que no esté vacío
             throw new IllegalArgumentException("El nickname no puede estar vacío.");
         }
 
-        this.nickname = nickname.trim();
+        this.nickname = nickname.trim(); //guardo el nickname sin espacios sobrantes
     }
 
-    public int getEdad() {
-        return edad;
+    public int getEdad() { //getter de la edad
+        return edad; //devuelve la edad
     }
 
-    public void setEdad(int edad) {
-        if (edad <= 0) {
+    public void setEdad(int edad) { //setter de la edad
+        if (edad <= 0) { //la edad tiene que ser mayor que 0
             throw new IllegalArgumentException("La edad debe ser mayor que 0.");
         }
 
-        this.edad = edad;
+        this.edad = edad; //guardo la edad si es válida
     }
 
-    public double getSalarioBase() {
-        return salarioBase;
+    public double getSalarioBase() { //getter del salario base
+        return salarioBase; //devuelve el salario base
     }
 
-    public void setSalarioBase(double salarioBase) {
-        if (salarioBase < 0) {
+    public void setSalarioBase(double salarioBase) { //setter del salario base
+        if (salarioBase < 0) { //no dejo que el salario sea negativo
             throw new IllegalArgumentException("El salario base no puede ser negativo.");
         }
 
-        this.salarioBase = salarioBase;
+        this.salarioBase = salarioBase; //guardo el salario si es válido
     }
 
     @Override //sobreescribo el override porque ya viene predefinido por java y no hace lo que necesito, así que por eso el @override

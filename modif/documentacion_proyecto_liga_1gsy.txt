@@ -196,6 +196,18 @@ Tercero, nombre del equipo en orden alfabetico.
 
 Las estadisticas de equipos se actualizan al disputar partidos: victorias, derrotas, puntos a favor y puntos en contra. Las estadisticas de jugadores tambien se actualizan: partidas jugadas, MVP, puntos MVP y highlights.
 
+Formato del torneo actualizado:
+
+Primero se disputan las tres jornadas iniciales con los seis equipos cargados en el calendario.
+Al terminar esas jornadas, la liga ordena a los equipos por puntos de clasificacion, diferencia de puntos y nombre.
+Los puntos de clasificacion se calculan como 3 puntos por victoria.
+Solo pasan los cuatro primeros equipos.
+Los equipos en posicion 5 y 6 quedan eliminados del torneo.
+El primer clasificado juega contra el segundo una serie al mejor de 3 por el primer y segundo puesto.
+El tercer clasificado juega contra el cuarto una serie al mejor de 3 por el tercer y cuarto puesto.
+Cada serie se va generando poco a poco: si un equipo gana dos partidos, la serie termina y no se necesita un tercer partido.
+Al finalizar las dos series se muestran los puestos finales del torneo.
+
 13. FUNCIONALIDADES EXTRA ANADIDAS
 
 El proyecto incluye algunas ampliaciones coherentes con la tematica:
@@ -264,6 +276,14 @@ Se ha anadido registro manual de resultados del siguiente partido pendiente. Par
 Se ha ampliado la gestion de incidencias. Ahora el menu permite registrar incidencias, listarlas, buscarlas por equipo y buscarlas por jugador. Si la incidencia es de tipo SANCION y tiene jugador relacionado, se aplica la sancion al jugador.
 
 Se ha ampliado el menu principal para que las funcionalidades obligatorias sean comprobables directamente por consola.
+
+Se ha cambiado el formato competitivo del torneo. Ahora las tres primeras jornadas funcionan como fase inicial de seis equipos. Al finalizar, solo los cuatro mejores por puntos pasan a la fase final. Los dos equipos restantes quedan eliminados.
+
+Se ha anadido una fase final al mejor de 3. El primer clasificado juega contra el segundo por el primer y segundo puesto, y el tercer clasificado juega contra el cuarto por el tercer y cuarto puesto.
+
+Se ha anadido un sistema de incidencias aleatorias despues de los partidos. No siempre ocurre una incidencia. Cuando ocurre, puede ser una sancion a un jugador, una expulsion, un error tecnico o una incidencia administrativa. Las sanciones se generan con cuidado para no romper automaticamente una convocatoria si el equipo no tiene suplente compatible.
+
+Se ha corregido el funcionamiento de deshacer ultima accion. Antes solo se eliminaba el texto del historial. Ahora la clase Liga mantiene una segunda pila con la operacion real que debe deshacerse. Por ejemplo, si se crea un jugador libre y se deshace inmediatamente, el jugador se elimina realmente de la lista de personas y tambien del conjunto de IDs registrados. Tambien se ha preparado deshacer para creacion de equipos y partidos pendientes cuando no hayan sido usados todavia.
 
 16. CONCLUSION
 
