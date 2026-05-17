@@ -310,7 +310,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
             procesarPartidoFinalizado(partido); //reviso incidencias, fase final y premios si corresponde
 
         } catch (JugadorSancionadoException | RolNoDisponibleException e) {
-            System.out.println("No se pudo disputar el partido: " + e.getMessage());
+            System.out.println("No se pudo disputar el partido: " + e.getMessage());  //si no se puede jugar el partido por una sanción o porque un equipo no tiene el rol necesario para jugar, se muestra un mensaje de error pero el partido sigue en la cola para poder disputarlo después si se resuelve la incidencia o se añade un jugador con el rol necesario al equipo, así que no lo quito de la cola ni lo marco como disputado, simplemente se avisa del problema y se deja el partido pendiente para que se pueda intentar disputar más adelante cuando se hayan solucionado los problemas que impiden jugarlo
         }
     }
 
@@ -320,7 +320,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
             return;
         }
 
-        for (Partido partido : partidosPendientes) {
+        for (Partido partido : partidosPendientes) { //recorre la cola de partidos y muestra info de cada uno
             System.out.println(partido);
         }
     }
@@ -332,7 +332,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
     }
 
     public void registrarResultadoManualSiguientePartido(int puntosLocal, int puntosVisitante) { //permite meter un resultado a mano
-        Partido partido = partidosPendientes.peek(); //el resultado manual se aplica al siguiente partido
+        Partido partido = partidosPendientes.peek(); //el resultado manual se aplica al siguiente partido (recordemos que peek solo mira pero no lo quita de la cola)
 
         if (partido == null) {
             System.out.println("No hay partidos pendientes.");
@@ -340,20 +340,20 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         }
 
         try {
-            partido.registrarResultadoManual(puntosLocal, puntosVisitante); //guardo puntos y estadísticas desde el método de partido
-            partidosPendientes.poll(); //lo quito de pendientes porque ya tiene resultado
-            registrarAccion("Resultado manual registrado: " + partido.getId());
+            partido.registrarResultadoManual(puntosLocal, puntosVisitante); //guardo puntos y estadísticas desde el método de partido 
+            partidosPendientes.poll(); //lo quito de pendientes porque ya tiene resultado (como en el resto de poll, podría utilizar el remove pero tendría que manejar la excepción que lanza en cada uno de ellos si la cola está vacía)
+            registrarAccion("Resultado manual registrado: " + partido.getId()); //guarda la info del partido en el historial 
 
             System.out.println("Resultado registrado correctamente.");
             partido.mostrarPartido();
 
-            procesarPartidoFinalizado(partido); //después del resultado hago las mismas comprobaciones que en un partido automático
-        } catch (PartidoInvalidoException | JugadorSancionadoException | RolNoDisponibleException e) {
+            procesarPartidoFinalizado(partido); //después del resultado hago las mismas comprobaciones que en un partido automático (incidencias, fase final, premios...)
+        } catch (PartidoInvalidoException | JugadorSancionadoException | RolNoDisponibleException e) { //si el resultado no es válido por alguna de esos tres errores muestra el error y no registra el resultado
             System.out.println("No se pudo registrar el resultado: " + e.getMessage());
         }
     }
 
-    private void procesarPartidoFinalizado(Partido partido) { //centraliza lo que pasa justo después de terminar un partido
+    private void procesarPartidoFinalizado(Partido partido) { //centraliza lo que pasa justo después de terminar un partido (revisa si hay incidencias, si toca iniciar fase final o entregar premios finales...)
         generarIncidenciaAleatoria(partido); //puede crear una incidencia, pero no siempre
 
         if (esPartidoFaseFinal(partido)) { //si era de final, actualizo la serie al mejor de 3
@@ -371,10 +371,10 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
     }
 
     private boolean esPartidoFaseFinal(Partido partido) { //comprueba si el id corresponde a una de las dos series finales
-        return partido.getId().startsWith("FINAL12-") || partido.getId().startsWith("FINAL34-");
+        return partido.getId().startsWith("FINAL12-") || partido.getId().startsWith("FINAL34-"); //si el id del partido empieza con esos prefijos, es un partido de fase final, así que devuelvo true, si no, devuelve false
     }
 
-    private void iniciarFaseFinal() { //prepara la fase final con los 4 mejores equipos
+    private void iniciarFaseFinal() { //prepara la fase final con los 4 mejores equipos 
         ArrayList<Equipo> clasificacion = obtenerClasificacionOrdenada(); //ordeno equipos por puntos y desempates
 
         if (clasificacion.size() < 4) {
@@ -399,31 +399,31 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         System.out.println("==============================================");
 
         for (int i = 0; i < clasificacion.size(); i++) {
-            String estado = i < 4 ? "CLASIFICADO" : "ELIMINADO";
-            System.out.println((i + 1) + ". " + clasificacion.get(i).getNombre() + " - " + estado);
+            String estado = i < 4 ? "CLASIFICADO" : "ELIMINADO"; //operador ternario para marcar los 4 primeros como clasificados y el resto como eliminados 
+            System.out.println((i + 1) + ". " + clasificacion.get(i).getNombre() + " - " + estado); 
         }
 
-        encolarSiguientePartidoFinalPrimero(); //encolo el primer partido de la serie 1º/2º
-        encolarSiguientePartidoFinalTercero(); //encolo el primer partido de la serie 3º/4º
-        registrarAccion("Inicio de fase final con los 4 mejores equipos.");
+        encolarSiguientePartidoFinalPrimero(); //pongo en la cola el primer partido de la serie 1º/2º
+        encolarSiguientePartidoFinalTercero(); //pongo en la cola el primer partido de la serie 3º/4º
+        registrarAccion("Inicio de fase final con los 4 mejores equipos."); //le paso la acción (en este caso el inicio de la fase final) al historial
     }
 
     private void encolarSiguientePartidoFinalPrimero() { //crea el siguiente partido de la serie por el primer puesto
-        if (victoriasFinalPrimeroA == 2 || victoriasFinalPrimeroB == 2 || partidosFinalPrimero == 3) {
+        if (victoriasFinalPrimeroA == 2 || victoriasFinalPrimeroB == 2 || partidosFinalPrimero == 3) { //si alguno de los dos equipos ya tiene 2 victorias o ya se jugaron 3 partidos, la serie terminó y no se añade a la cola más (esto es porque como la serie es al mejor de 3, si un equipo ya ha ganado 2 veces o se han jugado los tres partidos ya ha terminado)
             return;
         }
 
-        partidosFinalPrimero++; //aumento el número de partido de esta serie
-        crearPartidoFaseFinal("FINAL12-" + partidosFinalPrimero, 3 + partidosFinalPrimero, finalPrimeroA, finalPrimeroB);
+        partidosFinalPrimero++; //aumento el número de partido de esta serie 
+        crearPartidoFaseFinal("FINAL12-" + partidosFinalPrimero, 3 + partidosFinalPrimero, finalPrimeroA, finalPrimeroB); //creo la final con id que incluye el num del partido para diferenciarlos, la jornada la pongo a partir de la 4 para que no coincida con los partidos de las jornadas iniciales, y los equipos son los que se clasificaron para la final
     }
 
     private void encolarSiguientePartidoFinalTercero() { //crea el siguiente partido de la serie por el tercer puesto
-        if (victoriasFinalTerceroA == 2 || victoriasFinalTerceroB == 2 || partidosFinalTercero == 3) {
+        if (victoriasFinalTerceroA == 2 || victoriasFinalTerceroB == 2 || partidosFinalTercero == 3) { //lo mismo que en el anterior
             return;
         }
 
         partidosFinalTercero++; //aumento el número de partido de esta serie
-        crearPartidoFaseFinal("FINAL34-" + partidosFinalTercero, 3 + partidosFinalTercero, finalTerceroA, finalTerceroB);
+        crearPartidoFaseFinal("FINAL34-" + partidosFinalTercero, 3 + partidosFinalTercero, finalTerceroA, finalTerceroB); 
     }
 
     private void crearPartidoFaseFinal(String id, int jornada, Equipo local, Equipo visitante) { //crea un partido final reutilizando crearPartido
@@ -459,24 +459,23 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
             }
 
             System.out.println("Serie 3º/4º: " + finalTerceroA.getNombre() + " " + victoriasFinalTerceroA + " - " + victoriasFinalTerceroB + " " + finalTerceroB.getNombre());
-            encolarSiguientePartidoFinalTercero(); //si nadie llegó a 2 victorias, se encola otro
+            encolarSiguientePartidoFinalTercero(); //si nadie llegó a 2 victorias, se pone en la cola otro
         }
     }
 
     private boolean faseFinalCompletada() { //devuelve true cuando las dos series finales ya terminaron
-        return (victoriasFinalPrimeroA == 2 || victoriasFinalPrimeroB == 2 || partidosFinalPrimero == 3) &&
-                (victoriasFinalTerceroA == 2 || victoriasFinalTerceroB == 2 || partidosFinalTercero == 3);
+        return (victoriasFinalPrimeroA == 2 || victoriasFinalPrimeroB == 2 || partidosFinalPrimero == 3) && (victoriasFinalTerceroA == 2 || victoriasFinalTerceroB == 2 || partidosFinalTercero == 3); //cuando se cumpla que han ganado alguno de los dos equipos el 1º y 3º puesto ya ha terminmado
     }
 
     private void generarIncidenciaAleatoria(Partido partido) { //genera incidencias aleatorias después de algunos partidos
         Random random = new Random();
-        int probabilidad = random.nextInt(100); //uso un número de 0 a 99 para controlar porcentajes
+        int probabilidad = random.nextInt(100); //uso un número de 0 a 99 para controlar porcentajes con la función random.nextInt(100)
 
         if (probabilidad < 65) { //la mayoría de partidos no generan incidencias
             return;
         }
 
-        Equipo equipo = random.nextBoolean() ? partido.getLocal() : partido.getVisitante(); //elijo uno de los dos equipos
+        Equipo equipo = random.nextBoolean() ? partido.getLocal() : partido.getVisitante(); //elijo uno de los dos equipos al azar para que se vea afectado por la incidencia, esto es importante para luego elegir un jugador relacionado con la incidencia si es necesario, y también para registrar a qué equipo afecta la incidencia (aunque no todas las incidencias afectan a un jugador, como los errores técnicos o las incidencias administrativas, pero de esta forma puedo relacionar todas las incidencias con un equipo aunque no tengan jugador relacionado, porque siempre habrá un equipo afectado aunque no haya un jugador específico relacionado)
         Jugador jugador = elegirJugadorAleatorio(equipo); //puede ser necesario si la incidencia afecta a un jugador
         TipoIncidencia tipo;
         String descripcion;
@@ -488,7 +487,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
                 return;
             }
 
-            tipo = TipoIncidencia.SANCION;
+            tipo = TipoIncidencia.SANCION; //del enum tipoIncidencia
             descripcion = "Sanción aleatoria tras revisión arbitral del partido " + partido.getId() + ".";
         } else if (probabilidad < 88) {
             tipo = TipoIncidencia.ERROR_TECNICO;
@@ -511,10 +510,10 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         incidencia.mostrarIncidencia();
     }
 
-    private Jugador elegirJugadorAleatorio(Equipo equipo) { //elige cualquier jugador del equipo para incidencias no críticas
-        ArrayList<Jugador> jugadoresDisponibles = new ArrayList<Jugador>(); //junto titulares y suplentes en una lista
+    private Jugador elegirJugadorAleatorio(Equipo equipo) { //elige cualquier jugador del equipo para incidencias que no sean sanciones, sin importar si están sancionados o no, porque puede haber incidencias que afecten a jugadores aunque ya estén sancionados, como problemas técnicos relacionados con su equipo o incidencias administrativas relacionadas con su comportamiento fuera del juego, así que aquí no filtro por sanciones ni por suplentes disponibles, simplemente elijo un jugador al azar entre titulares y suplentes para que la incidencia tenga un jugador relacionado (aunque también podría ser null si el equipo no tiene jugadores, pero eso sería un caso extremo de equipo mal formado que no debería ocurrir en condiciones normales, así que lo dejo así para que se pueda generar una incidencia relacionada con un jugador aunque el equipo tenga solo titulares o solo suplentes o incluso ningún jugador, aunque este último caso es poco probable y no tendría sentido en la realidad, pero de esta forma el sistema es más flexible y puede manejar situaciones inesperadas sin fallar)
+        ArrayList<Jugador> jugadoresDisponibles = new ArrayList<Jugador>(); //junto titulares y suplentes en un arraylist
 
-        for (Jugador jugador : equipo.getTitulares()) {
+        for (Jugador jugador : equipo.getTitulares()) { //recorre titulares y si no están sancionados los añade a la lista de disponibles (si es null es porque el equipo no tiene otra persona con ese rol, así que lo ignoro porque no se puede sancionar a un jugador si no hay otro con su mismo rol que pueda sustituirlo, para evitar bloquear al equipo por una sanción)
             if (jugador != null) {
                 jugadoresDisponibles.add(jugador);
             }
@@ -529,19 +528,19 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         }
 
         Random random = new Random();
-        return jugadoresDisponibles.get(random.nextInt(jugadoresDisponibles.size()));
+        return jugadoresDisponibles.get(random.nextInt(jugadoresDisponibles.size())); //devuelve jugador aleatorio de la lista de disponibles (titulares y suplentes)
     }
 
     private Jugador elegirJugadorSancionable(Equipo equipo) { //elige un jugador que se pueda sancionar sin bloquear el equipo
         ArrayList<Jugador> candidatos = new ArrayList<Jugador>(); //aquí guardo solo jugadores válidos para sanción
 
         for (Jugador jugador : equipo.getTitulares()) {
-            if (jugador != null && !jugador.isSancionado() && equipo.buscarSuplenteCompatible(jugador.getRol()) != null) {
+            if (jugador != null && !jugador.isSancionado() && equipo.buscarSuplenteCompatible(jugador.getRol()) != null) { //si el jugador es titular, no está sancionado y tiene un suplente compatible, lo añado a la lista de candidatos
                 candidatos.add(jugador);
             }
         }
 
-        for (Jugador jugador : equipo.getSuplentes()) {
+        for (Jugador jugador : equipo.getSuplentes()) { 
             if (!jugador.isSancionado()) {
                 candidatos.add(jugador);
             }
@@ -552,7 +551,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         }
 
         Random random = new Random();
-        return candidatos.get(random.nextInt(candidatos.size()));
+        return candidatos.get(random.nextInt(candidatos.size())); //devuelve jugador aleatorio de la lista de candidatos para sanción
     }
 
     public void registrarIncidencia(Incidencia incidencia) { //guarda una incidencia y aplica su efecto
@@ -622,13 +621,13 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
             boolean hayPartidos = false;
 
             for (int j = 0; j < calendario[i].length; j++) {
-                if (calendario[i][j] != null) {
+                if (calendario[i][j] != null) { //si encuentra al menos un partido en la jornada, marca que hay partidos para mostrar esa jornada, si no encuentra ningún partido en toda la fila, no muestra nada de esa jornada
                     hayPartidos = true;
                 }
             }
 
             if (hayPartidos) {
-                System.out.println("Jornada " + (i + 1));
+                System.out.println("Jornada " + (i + 1)); //ajusto el número de jornada para que empiece en 1 en lugar de 0
 
                 for (int j = 0; j < calendario[i].length; j++) {
                     if (calendario[i][j] != null) {
@@ -651,7 +650,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         System.out.println("Jornada " + jornada);
 
         for (int i = 0; i < calendario[fila].length; i++) {
-            Partido partido = calendario[fila][i];
+            Partido partido = calendario[fila][i]; //recorro la fila correspondiente a la jornada y muestro los partidos que encuentre, si no hay ningún partido en toda la fila, no se muestra nada de esa jornada
 
             if (partido != null) {
                 partido.mostrarPartido();
@@ -672,12 +671,12 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
     }
 
     public PersonaLiga buscarPersonaPorId(String id) { //busca cualquier persona, sea jugador o entrenador
-        if (id == null || id.trim().equals("")) {
+        if (id == null || id.trim().equals("")) { //si el id es null o vacío, devuelvo null para indicar que no se encontró ninguna persona, así evito errores al comparar con ids válidos
             return null;
         }
 
         for (PersonaLiga persona : personas) {
-            if (persona.getId().equalsIgnoreCase(id)) {
+            if (persona.getId().equalsIgnoreCase(id)) { //compara ids ignorando las myúsculas, si coincide el id con el de una persona devuelve a esa persona, si no, devuelve null
                 return persona;
             }
         }
@@ -728,7 +727,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
             return;
         }
 
-        if (persona instanceof Entrenador) {
+        if (persona instanceof Entrenador) { //si el entrenador está asignado a un equipo, no se puede eliminar porque sí o sí se necesita un entrenador para cada equipo, el instanceof me asegura que solo comprueba que persona instancia de entrenador (que si es entrenador, vaya)
             for (Equipo equipo : equipos) {
                 if (equipo.getEntrenador() == persona) {
                     System.out.println("No se puede eliminar: el entrenador está asignado a un equipo.");
@@ -768,20 +767,20 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
     }
 
     private ArrayList<Equipo> obtenerClasificacionOrdenada() { //ordena equipos por puntos, diferencia y nombre
-        ArrayList<Equipo> clasificacion = new ArrayList<Equipo>(equipos); //hago copia para no alterar la lista original
+        ArrayList<Equipo> clasificacion = new ArrayList<Equipo>(equipos); //hago copia para no alterar la lista original (coge los mismos objetos en una lista nueva, y como son la misma referencia, si modifico un equipo aquí también se modifica en la original, pero como es solo para ordenar me aseguro de que el orden de esta lista no afecte al orden de la original (el orden es independiente de cada una de las listas))
 
-        Collections.sort(clasificacion, new Comparator<Equipo>() {
+        Collections.sort(clasificacion, new Comparator<Equipo>() { //creo comparador para ordenar equipos por puntos
             @Override
             public int compare(Equipo e1, Equipo e2) {
-                if (e1.getPuntosClasificacion() != e2.getPuntosClasificacion()) { //primero comparo los puntos de liga
+                if (e1.getPuntosClasificacion() != e2.getPuntosClasificacion()) { //primero comparo los puntos de liga y ordeno de mayor a menor (si el resultado es negativo, e1 va antes que e2, si es positivo, e2 va antes que e1, si es 0, siguen igual, por eso resto e2 menos e1 para ordenar de mayor a menor)
                     return e2.getPuntosClasificacion() - e1.getPuntosClasificacion();
                 }
 
-                if (e1.calcularDiferenciaPuntos() != e2.calcularDiferenciaPuntos()) { //si empatan, uso la diferencia de puntos
+                if (e1.calcularDiferenciaPuntos() != e2.calcularDiferenciaPuntos()) { //si empatan, uso la diferencia de puntos como segundo criterio de desempate, también de mayor a menor, así que resto e2 menos e1 para que el equipo con mayor diferencia quede antes
                     return e2.calcularDiferenciaPuntos() - e1.calcularDiferenciaPuntos();
                 }
 
-                return e1.getNombre().compareTo(e2.getNombre()); //si sigue el empate, ordeno por nombre
+                return e1.getNombre().compareTo(e2.getNombre()); //si sigue el empate, ordeno por nombre en orden alfabético (primero a, luego b, etc etc), el compareTo devuelve un número negativo si e1 va antes que e2, positivo si e2 va antes que e1 o 0 si son iguales
             }
         });
 
@@ -789,12 +788,12 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
     }
 
     public Jugador buscarJugadorPorId(String id) { //busca solo jugadores por id
-        if (id == null || id.trim().equals("")) {
+        if (id == null || id.trim().equals("")) { //si id es null o vacío devuelve null para mostrar que no se ha encontrado ningún jugador
             return null;
         }
 
         for (PersonaLiga persona : personas) {
-            if (persona instanceof Jugador && persona.getId().equalsIgnoreCase(id)) {
+            if (persona instanceof Jugador && persona.getId().equalsIgnoreCase(id)) { //busca que persona instancie de jugador y que el id coincida con el buscado (ignora mayúsculas), si encuentra una coincidencia devuelve ese jugador, si no encuentra ninguna coincidencia devuelve null
                 return (Jugador) persona;
             }
         }
@@ -802,7 +801,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         return null;
     }
 
-    public Equipo buscarEquipoPorNombre(String nombreEquipo) { //busca un equipo por nombre ignorando mayúsculas
+    public Equipo buscarEquipoPorNombre(String nombreEquipo) { //busca un equipo por nombre ignorando mayúsculas, mismo procedimiento que en buscar jugador por id
         if (nombreEquipo == null || nombreEquipo.trim().equals("")) {
             return null;
         }
@@ -816,7 +815,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         return null;
     }
 
-    public Equipo buscarEquipoDeJugador(Jugador jugador) { //devuelve el equipo al que pertenece un jugador
+    public Equipo buscarEquipoDeJugador(Jugador jugador) { //devuelve el equipo al que pertenece un jugador, mismo procedimiento que en los métodos anteriores, recorre equipos y busca si el jugador está en alguno de ellos, si lo encuentra devuelve ese equipo, si no lo encuentra devuelve null para indicar que el jugador no pertenece a ningún equipo
         for (Equipo equipo : equipos) {
             if (equipo.contieneJugador(jugador)) {
                 return equipo;
@@ -841,7 +840,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         }
 
         try {
-            equipo.sustituirTitularPorSuplente(rol, suplente); //la lógica de intercambio está en equipo
+            equipo.sustituirTitularPorSuplente(rol, suplente); //la lógica de intercambio está en equipo, si hay algún problema con la sustitución (rol no disponible, jugador sancionado, suplente no compatible, etc) se lanza una excepción que se captura aquí para mostrar el error sin que el programa falle, y si la sustitución es correcta, se registra la acción en el historial y se muestra un mensaje de éxito
             registrarAccion("Sustitución en " + equipo.getNombre() + ": rol " + rol);
             System.out.println("Sustitución realizada correctamente.");
         } catch (RolNoDisponibleException | JugadorSancionadoException | IllegalArgumentException e) {
@@ -863,7 +862,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
             return;
         }
 
-        if (buscarEquipoDeJugador(jugador) != null) {
+        if (buscarEquipoDeJugador(jugador) != null) { //si ya pertenece a equipo no se puede fichar asi que lo marco como error
             System.out.println("Ese jugador ya pertenece a un equipo.");
             return;
         }
@@ -935,27 +934,27 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         } else {
             ArrayList<Equipo> clasificacion = obtenerClasificacionOrdenada(); //si no hubo fase final completa, uso la clasificación general
 
-            if (!clasificacion.isEmpty()) {
+            if (!clasificacion.isEmpty()) { //se muestra el podio siempre que haya al menos un equipo registrado (que el arraylist clasificación no esté vacío)
                 System.out.println("Podio del torneo:");
 
                 for (int i = 0; i < clasificacion.size() && i < 3; i++) {
-                    System.out.println((i + 1) + ". " + clasificacion.get(i).getNombre());
+                    System.out.println((i + 1) + ". " + clasificacion.get(i).getNombre()); //el get(i) me da el equipo en la posición i de la clasificación, y el (i + 1) es para mostrar el número de puesto empezando en 1 en lugar de 0, y el && i < 3 es para mostrar solo los 3 primeros puestos aunque haya más equipos registrados
                 }
             }
         }
 
-        Jugador mvpTorneo = null; //guardará el jugador con más puntos mvp
+        Jugador mvpTorneo = null; //guardará el jugador con más puntos mvp, de momento lo pongo como null pero se actualizará
         Jugador mejorHighlight = null; //guardará el jugador con más highlights
 
         for (PersonaLiga persona : personas) {
             if (persona instanceof Jugador) {
                 Jugador jugador = (Jugador) persona;
 
-                if (mvpTorneo == null || jugador.getPuntosMvp() > mvpTorneo.getPuntosMvp()) {
+                if (mvpTorneo == null || jugador.getPuntosMvp() > mvpTorneo.getPuntosMvp()) { //si el jugador actual tiene más puntos que el que esté guardado como mvp se actualiza 
                     mvpTorneo = jugador;
                 }
 
-                if (mejorHighlight == null || jugador.getHighlightsRealizados() > mejorHighlight.getHighlightsRealizados()) {
+                if (mejorHighlight == null || jugador.getHighlightsRealizados() > mejorHighlight.getHighlightsRealizados()) { //lo mismo que con el mvp pero para highlights
                     mejorHighlight = jugador;
                 }
             }
@@ -994,8 +993,8 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
     }
 
     public void registrarAccion(String accion) { //registra una acción sin deshacer real
-        historialAcciones.push(accion); //guardo el texto en la pila del historial
-        accionesDeshacer.push("SIN_DESHACER"); //marco que solo se puede quitar del historial
+        historialAcciones.push(accion); //guardo el texto en la pila del historial (el push añade el elemento al final de la lista)
+        accionesDeshacer.push("SIN_DESHACER"); //marco que solo se puede quitar del historial pero no se puede deshacer realmente, porque no todas las acciones tienen un efecto concreto que se pueda revertir, como por ejemplo mostrar el calendario o listar personas, así que para esas acciones simplemente registro que no hay deshacer real disponible, y para las acciones que sí tienen un efecto concreto implemento la lógica de deshacer en el método deshacerUltimaAccion, y registro la orden de deshacer correspondiente para cada acción concreta, como eliminar una persona o eliminar un equipo, etc, de esta forma puedo tener un historial completo de todas las acciones realizadas aunque no todas tengan un deshacer real implementado, y para las que sí lo tienen, puedo revertir su efecto si se desea
     }
 
     public void registrarAccion(String accion, String accionDeshacer) { //registra una acción y la orden para deshacerla
@@ -1009,8 +1008,8 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
             return;
         }
 
-        for (int i = historialAcciones.size() - 1; i >= 0; i--) {
-            System.out.println(historialAcciones.get(i));
+        for (int i = historialAcciones.size() - 1; i >= 0; i--) { 
+            System.out.println(historialAcciones.get(i)); //recorre pila del historial desde el final para mostrar las acciones en orden desde más reciente a más antigua, el get(i) me da la acción en la posición i de la pila, y como el for empieza en size() - 1 y va restando, primero muestra la última acción añadida (la más reciente) y luego va mostrando las anteriores hasta llegar a la primera acción añadida (la más antigua)
         }
     }
 
@@ -1018,7 +1017,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         if (historialAcciones.isEmpty()) {
             System.out.println("No hay acciones en el historial.");
         } else {
-            String accion = historialAcciones.pop(); //saco la acción visible
+            String accion = historialAcciones.pop(); //saco la acción visible (el pop elimina último elemento de la pila y lo devuelve para mostrarlo como la acción que se va a deshacer)
             String accionDeshacer = accionesDeshacer.pop(); //saco también la orden de deshacer
 
             if (accionDeshacer.equals("SIN_DESHACER")) {
@@ -1042,12 +1041,12 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
             return;
         }
 
-        if (persona instanceof Jugador && buscarEquipoDeJugador((Jugador) persona) != null) {
+        if (persona instanceof Jugador && buscarEquipoDeJugador((Jugador) persona) != null) { //si la persona instancia de jugador y pertenece a un equipo no se puede deshacer el alta porque no está libre
             System.out.println("No se pudo deshacer: el jugador ya pertenece a un equipo.");
             return;
         }
 
-        if (persona instanceof Entrenador) {
+        if (persona instanceof Entrenador) { //lo mismo pero con entrenador
             for (Equipo equipo : equipos) {
                 if (equipo.getEntrenador() == persona) {
                     System.out.println("No se pudo deshacer: el entrenador ya está asignado a un equipo.");
