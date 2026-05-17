@@ -108,7 +108,7 @@ public class Equipo { //clase equipo, donde guardo entrenador, titulares, suplen
             throw new RolNoDisponibleException("El suplente no tiene el rol " + rol + ".");
         }
 
-        if (suplente.isSancionado()) { //no dejo entrar a un suplente sancionado
+        if (suplente.esSancionado()) { //no dejo entrar a un suplente sancionado
             throw new JugadorSancionadoException("El suplente " + suplente.getNickname() + " está sancionado.");
         }
 
@@ -138,7 +138,7 @@ public class Equipo { //clase equipo, donde guardo entrenador, titulares, suplen
 
     public Jugador buscarSuplenteCompatible(Rol rol) { //busca un suplente del mismo rol que pueda jugar
         for (Jugador jugador : suplentes) { //recorro la lista de suplentes
-            if (jugador.getRol() == rol && !jugador.isSancionado()) { //tiene que tener el rol correcto y no estar sancionado
+            if (jugador.getRol() == rol && !jugador.esSancionado()) { //tiene que tener el rol correcto y no estar sancionado
                 return jugador; //devuelvo el primero válido
             }
         }
@@ -153,7 +153,7 @@ public class Equipo { //clase equipo, donde guardo entrenador, titulares, suplen
             Rol rolNecesario = Rol.values()[i]; //obtengo el rol que toca en esa posición
             Jugador titular = titulares[i]; //cojo el titular de ese rol
 
-            if (titular != null && !titular.isSancionado()) { //si hay titular y no está sancionado, juega él
+            if (titular != null && !titular.esSancionado()) { //si hay titular y no está sancionado, juega él
                 convocatoria[i] = titular; //lo meto en la convocatoria
             } else {
                 Jugador suplente = buscarSuplenteCompatible(rolNecesario); //si no puede jugar el titular, busco suplente del mismo rol
@@ -161,7 +161,7 @@ public class Equipo { //clase equipo, donde guardo entrenador, titulares, suplen
                 if (suplente != null) { //si encuentro suplente compatible
                     convocatoria[i] = suplente; //lo meto en la convocatoria
                 } else {
-                    if (titular != null && titular.isSancionado()) { //si el problema es que el titular está sancionado y no hay suplente
+                    if (titular != null && titular.esSancionado()) { //si el problema es que el titular está sancionado y no hay suplente
                         throw new JugadorSancionadoException("El titular " + titular.getNickname() +
                                 " está sancionado y no hay suplente disponible para el rol " + rolNecesario);
                     } else {
@@ -230,7 +230,7 @@ public class Equipo { //clase equipo, donde guardo entrenador, titulares, suplen
         int contador = 0; //cuento cuántos jugadores válidos hay
 
         for (Jugador jugador : titulares) { //recorro los titulares
-            if (jugador != null && !jugador.isSancionado()) { //solo cuentan los que pueden jugar
+            if (jugador != null && !jugador.esSancionado()) { //solo cuentan los que pueden jugar
                 total += jugador.calcularRendimiento();
                 contador++;
             }
@@ -342,12 +342,6 @@ public class Equipo { //clase equipo, donde guardo entrenador, titulares, suplen
 
     @Override //sobreescribo toString para mostrar el equipo resumido
     public String toString() { //devuelve una línea con datos principales del equipo
-        return nombre +
-                " | Ciudad: " + ciudad +
-                " | Puntos: " + getPuntosClasificacion() +
-                " | Victorias: " + victorias +
-                " | Derrotas: " + derrotas +
-                " | Dif. puntos: " + calcularDiferenciaPuntos() +
-                " | Patrocinio: " + calcularValorPatrocinadores() + "€";
+        return nombre + " | Ciudad: " + ciudad + " | Puntos: " + getPuntosClasificacion() + " | Victorias: " + victorias + " | Derrotas: " + derrotas + " | Dif. puntos: " + calcularDiferenciaPuntos() + " | Patrocinio: " + calcularValorPatrocinadores() + "€";
     }
 }

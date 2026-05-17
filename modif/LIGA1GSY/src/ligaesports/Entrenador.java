@@ -10,8 +10,7 @@ public class Entrenador extends PersonaLiga { //clase entrenador, que hereda de 
         super(); //llama al constructor vacío de PersonaLiga
     }
 
-    public Entrenador(String id, String nombre, String nickname, int edad, double salarioBase,
-                      int experiencia, String especialidad) { //constructor con todos los datos del entrenador
+    public Entrenador(String id, String nombre, String nickname, int edad, double salarioBase, int experiencia, String especialidad) { //constructor con todos los datos del entrenador
 
         super(id, nombre, nickname, edad, salarioBase); //mando los datos comunes al constructor de PersonaLiga
         setExperiencia(experiencia); //uso el setter para validar la experiencia

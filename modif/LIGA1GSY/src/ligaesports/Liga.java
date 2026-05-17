@@ -535,13 +535,13 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
         ArrayList<Jugador> candidatos = new ArrayList<Jugador>(); //aquí guardo solo jugadores válidos para sanción
 
         for (Jugador jugador : equipo.getTitulares()) {
-            if (jugador != null && !jugador.isSancionado() && equipo.buscarSuplenteCompatible(jugador.getRol()) != null) { //si el jugador es titular, no está sancionado y tiene un suplente compatible, lo añado a la lista de candidatos
+            if (jugador != null && !jugador.esSancionado() && equipo.buscarSuplenteCompatible(jugador.getRol()) != null) { //si el jugador es titular, no está sancionado y tiene un suplente compatible, lo añado a la lista de candidatos
                 candidatos.add(jugador);
             }
         }
 
         for (Jugador jugador : equipo.getSuplentes()) { 
-            if (!jugador.isSancionado()) {
+            if (!jugador.esSancionado()) {
                 candidatos.add(jugador);
             }
         }
@@ -1099,7 +1099,7 @@ public class Liga { //clase principal de la lógica de la liga, aquí se control
 
         for (int i = 0; i < calendario.length; i++) {
             for (int j = 0; j < calendario[i].length; j++) {
-                if (calendario[i][j] == partidoEncontrado) {
+                if (calendario[i][j] == partidoEncontrado) { //el i y j dan la posición del partido en la matriz del calendario, si se encuentra algo en esa posición lo pone en null
                     calendario[i][j] = null; //también lo borro de la matriz del calendario
                 }
             }

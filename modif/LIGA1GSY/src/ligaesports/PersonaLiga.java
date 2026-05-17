@@ -1,4 +1,4 @@
-package ligaesports;
+ package ligaesports;
 
 public abstract class PersonaLiga { //creo la clase abstracta PersonaLiga
 
@@ -12,7 +12,7 @@ public abstract class PersonaLiga { //creo la clase abstracta PersonaLiga
     }
 
     public PersonaLiga(String id, String nombre, String nickname, int edad, double salarioBase) { //constructor con parámetros de entrada para polimorfismo
-        setId(id); //uso los setters para que se validen los datos desde el principio
+        setId(id); //uso los setters para que se validen los datos desde el principio, podría hacer lo de this.id = id; pero así me aseguro de que se validen los datos, la diferencia es que el setter hace una validación antes de guardar el dato, mientras que el this.id = id; lo guarda directamente sin validar (se podría poner la validación dentro del constructor sin llamar a los métodos pero así lo puedo hacer de otra manera nueva para aprender)
         setNombre(nombre); //guardo el nombre validado
         setNickname(nickname); //guardo el nickname validado
         setEdad(edad); //guardo la edad validada

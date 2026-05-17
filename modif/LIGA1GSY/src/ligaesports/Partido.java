@@ -50,7 +50,7 @@ public class Partido { //clase partido, aquí guardo los datos de cada enfrentam
 
     private double generarDineroInicial() { //genera una cantidad inicial aleatoria de apoyo económico
         Random random = new Random(); //creo random para sacar un número aleatorio
-        return 3000 + random.nextInt(47001); //devuelvo una cantidad entre 3000 y 50000 aproximadamente
+        return 3000 + random.nextInt(47001); //devuelvo una cantidad entre 3000 y 50000 aproximadamente, el 3000 es para que haya al menos ese dinero apostado y el 47001 es para que llegue a 50000 como máximo sumado al 3000 (el nextInt genera un número entre 0 y 47000 en este caso)
     }
 
     public void mostrarApuestas() { //muestra el apoyo económico que tiene cada equipo en este partido
@@ -82,13 +82,9 @@ public class Partido { //clase partido, aquí guardo los datos de cada enfrentam
 
         Random random = new Random(); //random para los puntos del partido
 
-        double fuerzaLocal = calcularFuerzaConvocatoria(convocatoriaLocal)
-                + (local.calcularValorPatrocinadores() / 10000)
-                + (dineroApostadoLocal / 50000);
+        double fuerzaLocal = calcularFuerzaConvocatoria(convocatoriaLocal) + (local.calcularValorPatrocinadores() / 10000) + (dineroApostadoLocal / 50000);
 
-        double fuerzaVisitante = calcularFuerzaConvocatoria(convocatoriaVisitante)
-                + (visitante.calcularValorPatrocinadores() / 10000)
-                + (dineroApostadoVisitante / 50000);
+        double fuerzaVisitante = calcularFuerzaConvocatoria(convocatoriaVisitante) + (visitante.calcularValorPatrocinadores() / 10000) + (dineroApostadoVisitante / 50000);
 
         puntosLocal = 10 + random.nextInt(21) + (int) (fuerzaLocal / 10); //calculo los puntos del local mezclando azar y fuerza
         puntosVisitante = 10 + random.nextInt(21) + (int) (fuerzaVisitante / 10); //calculo los puntos del visitante
@@ -106,7 +102,7 @@ public class Partido { //clase partido, aquí guardo los datos de cada enfrentam
 
     public void registrarResultadoManual(int puntosLocal, int puntosVisitante) throws PartidoInvalidoException, JugadorSancionadoException, RolNoDisponibleException { //registra un resultado escrito por teclado
         if (disputado) { //no dejo registrar dos veces el mismo partido
-            throw new PartidoInvalidoException("Este partido ya ha sido disputado.");
+            throw new PartidoInvalidoException("Este partido ya ha sido disputado."); //muestra mensaje
         }
 
         if (puntosLocal < 0 || puntosVisitante < 0) { //los puntos no pueden ser negativos
@@ -201,7 +197,10 @@ public class Partido { //clase partido, aquí guardo los datos de cada enfrentam
                 "dominó el tramo final del partido",
                 "consiguió una jugada espectacular frente al público",
                 "forzó una jugada imposible que cambió el ritmo del partido",
-                "coordinó una pelea de equipo perfecta"
+                "coordinó una pelea de equipo perfecta",
+                "logró una jugada maestra que dejó a todos boquiabiertos",
+                "fue el motor que impulsó a su equipo a la victoria",
+                "demostró una habilidad mecánica impresionante en el momento clave"
         };
 
         Random random = new Random(); //random para elegir una frase
@@ -277,8 +276,6 @@ public class Partido { //clase partido, aquí guardo los datos de cada enfrentam
 
     @Override //sobreescribo toString para mostrar el partido resumido
     public String toString() { //devuelve el partido en una línea
-        return "Partido " + id + " | Jornada " + jornada + " | " +
-                local.getNombre() + " vs " + visitante.getNombre() +
-                " | Disputado: " + (disputado ? "Sí" : "No");
+        return "Partido " + id + " | Jornada " + jornada + " | " + local.getNombre() + " vs " + visitante.getNombre() + " | Disputado: " + (disputado ? "Sí" : "No"); 
     }
 }

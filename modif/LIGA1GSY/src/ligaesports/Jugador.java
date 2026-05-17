@@ -16,11 +16,10 @@ public class Jugador extends PersonaLiga implements Entrenable { //clase jugador
         super(); //llama al constructor vacío de PersonaLiga
     }
 
-    public Jugador(String id, String nombre, String nickname, int edad, double salarioBase,
-                   Rol rol, int nivelMecanico, int nivelEstrategico) { //constructor con todos los datos del jugador
+    public Jugador(String id, String nombre, String nickname, int edad, double salarioBase, Rol rol, int nivelMecanico, int nivelEstrategico) { //constructor con todos los datos del jugador
 
         super(id, nombre, nickname, edad, salarioBase); //mando los datos comunes al constructor de PersonaLiga
-        setRol(rol); //guardo el rol usando el setter para validar que no sea null
+        setRol(rol); //guardo el rol usando el setter para validar que no sea null, al igual que en personaLiga uso los setters para validar los datos desde el principio sin el this.rol = rol; que lo guardaría directamente sin validar
         setNivelMecanico(nivelMecanico); //guardo el nivel mecánico validado
         setNivelEstrategico(nivelEstrategico); //guardo el nivel estratégico validado
         this.partidasJugadas = 0; //empieza sin partidas jugadas
@@ -71,7 +70,7 @@ public class Jugador extends PersonaLiga implements Entrenable { //clase jugador
         System.out.println("Highlights realizados: " + highlightsRealizados);
         System.out.println("Puntos MVP torneo: " + puntosMvp);
         System.out.println("Rendimiento: " + calcularRendimiento());
-        System.out.println("Sancionado: " + (sancionado ? "Sí" : "No"));
+        System.out.println("Sancionado: " + (sancionado ? "Sí" : "No")); //el ? : es un operador ternario que devuelve "Sí" si sancionado es true y "No" si es false
     }
 
     public void sumarPartidaJugada() { //método para sumar una partida jugada
@@ -132,7 +131,7 @@ public class Jugador extends PersonaLiga implements Entrenable { //clase jugador
         return mvpTotales; //devuelve los mvps totales
     }
 
-    public boolean isSancionado() { //getter booleano para saber si está sancionado
+    public boolean esSancionado() { //getter booleano para saber si está sancionado
         return sancionado; //devuelve true si está sancionado y false si no
     }
 
@@ -150,10 +149,6 @@ public class Jugador extends PersonaLiga implements Entrenable { //clase jugador
 
     @Override //sobreescribo toString para mostrar el jugador con datos útiles
     public String toString() { //devuelve un resumen del jugador en una línea
-        return super.toString() +
-                " | Rol: " + rol +
-                " | Rendimiento: " + calcularRendimiento() +
-                " | Puntos MVP: " + puntosMvp +
-                " | Sancionado: " + (sancionado ? "Sí" : "No");
+        return super.toString() + " | Rol: " + rol + " | Rendimiento: " + calcularRendimiento() + " | Puntos MVP: " + puntosMvp + " | Sancionado: " + (sancionado ? "Sí" : "No"); //incluyo el toString de PersonaLiga y añado el rol, rendimiento, puntos mvp y sanción (sanción también con el operador ternario para mostrar Sí o No)
     }
 }

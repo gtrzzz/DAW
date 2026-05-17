@@ -1,96 +1,116 @@
-MEMORIA TECNICA - PROYECTO FINAL 1GSY
-Gestion de una Liga de E-sports
+MEMORIA TÉCNICA - PROYECTO FINAL 1GSY
+Gestión de una Liga de E-sports
 
-Alumno: gtrzzz
+Alumno: Iván Gutiérrez Mateos
 Proyecto: LIGA1GSY
-Ubicacion del codigo: modif/LIGA1GSY/src/ligaesports
 
-1. DESCRIPCION GENERAL DEL PROYECTO
+1. DESCRIPCIÓN GENERAL DEL PROYECTO
 
-El proyecto LIGA1GSY es una aplicacion Java por consola orientada a la gestion de una liga de e-sports. El programa permite trabajar con personas de la liga, equipos, jugadores, entrenadores, plantillas, calendario, partidos pendientes, resultados, clasificacion, incidencias, sanciones, eventos, patrocinadores e historial de acciones.
+El proyecto LIGA1GSY es una aplicación Java orientada a la gestión de una liga de e-sports. La idea principal es simular una competición organizada por 1GSY, donde existen personas de la liga, equipos, entrenadores, jugadores titulares y suplentes, partidos, calendario, incidencias, sanciones, clasificación, eventos y un historial de acciones.
 
-La aplicacion se ejecuta desde la clase MainEsports. Al arrancar se crea una Liga llamada "Liga Nexus 1GSY", se cargan datos de prueba con varios equipos, entrenadores, jugadores titulares, suplentes, patrocinadores y partidos, y despues se muestra un menu por consola para interactuar con el sistema.
+La aplicación se ejecuta desde la clase MainEsports. Al arrancar, se crea una liga llamada "1GSY WORLD CHAMPIONSHIP SERIES", se cargan datos de prueba y se muestra un menú por consola. Ese menú permite probar las funcionalidades principales que pide el enunciado del PDF: gestión de personas, equipos, fichajes, calendario, cola de partidos, resultados, incidencias, sanciones, clasificación, estadísticas e historial.
 
-El proyecto no concentra toda la logica en el main. La clase MainEsports se encarga principalmente del menu, la lectura por teclado y la carga inicial de datos. La logica principal se reparte entre Liga, Equipo, Partido, Jugador, Entrenador, Incidencia y las clases auxiliares.
+El programa no concentra toda la lógica en el main. La clase MainEsports se encarga sobre todo de mostrar el menú, leer datos por teclado y llamar a los métodos correspondientes. La lógica principal está repartida entre Liga, Equipo, Partido, Jugador, Entrenador, Incidencia y las clases auxiliares.
 
 2. ESTRUCTURA DE CLASES
 
-MainEsports
-Es la clase principal del programa. Contiene el metodo main, crea el objeto Liga, carga datos iniciales y muestra el menu. Tambien incluye metodos auxiliares para leer enteros, decimales y textos por teclado, pedir roles, crear jugadores libres, gestionar fichajes, apostar o apoyar economicamente al siguiente partido y disputar partidos.
+MainEsports-
+
+Es la clase principal del programa. Contiene el método main, crea el objeto Liga, carga datos iniciales y muestra el menú de consola. También incluye métodos auxiliares para leer enteros, decimales y textos, pedir roles, crear jugadores libres, gestionar fichajes, registrar incidencias, apostar o añadir apoyo económico al siguiente partido y disputar partidos.
 
 Liga
-Es la clase central del sistema. Guarda el nombre de la liga, las personas registradas, los equipos, las incidencias, los eventos, los partidos pendientes, el historial y el calendario. Tambien controla duplicados mediante HashSet. Desde esta clase se crean personas, equipos y partidos, se muestra el calendario, se disputan partidos, se registra el historial, se muestran personas/equipos/clasificacion y se gestionan fichajes y transferencias.
+
+Es la clase central del sistema. Guarda el nombre de la liga, las personas registradas, los equipos, las incidencias, los eventos, los partidos pendientes, el historial y el calendario. También controla duplicados mediante HashSet. Desde esta clase se crean personas, equipos y partidos, se muestra el calendario, se disputan partidos, se registra el historial, se muestran personas, equipos y clasificación, y se gestionan fichajes, transferencias, incidencias y sanciones.
 
 PersonaLiga
-Es una clase abstracta que representa una persona comun dentro de la liga. Sus atributos son id, nombre, nickname, edad y salarioBase. Define los metodos abstractos calcularCosteMensual() y mostrarResumen(), ya que un jugador y un entrenador no calculan su coste ni muestran su resumen de la misma forma. Tambien incluye getters, setters con validacion y toString().
+
+Es una clase abstracta que representa una persona común dentro de la liga. Sus atributos son id, nombre, nickname, edad y salarioBase. Define los métodos abstractos calcularCosteMensual() y mostrarResumen(), porque un jugador y un entrenador no calculan su coste ni muestran su resumen exactamente de la misma forma. También incluye getters, setters con validación y toString().
 
 Jugador
-Es una subclase de PersonaLiga e implementa la interfaz Entrenable. Representa a un jugador de e-sports. Sus atributos propios son rol, nivelMecanico, nivelEstrategico, partidasJugadas, mvpTotales, sancionado, puntosMvp y highlightsRealizados. Calcula su rendimiento a partir de sus niveles y estadisticas, permite entrenar, sumar partidas, sumar MVP y registrar highlights.
+
+Es una subclase de PersonaLiga e implementa la interfaz Entrenable. Representa a un jugador de e-sports. Sus atributos propios son rol, nivelMecanico, nivelEstrategico, partidasJugadas, mvpTotales, sancionado, puntosMvp y highlightsRealizados. Calcula su rendimiento a partir de sus niveles y estadísticas, permite entrenar, sumar partidas, sumar MVP y registrar highlights.
+
+El estado de sanción se consulta con el método esSancionado(). Este método devuelve true si el jugador está sancionado y false si puede participar.
 
 Entrenador
+
 Es una subclase de PersonaLiga. Representa al entrenador de un equipo. Sus atributos propios son experiencia, especialidad y victoriasTotales. Su coste mensual depende del salario base, la experiencia y las victorias acumuladas.
 
 Entrenable
-Es una interfaz implementada por Jugador. Define el comportamiento de una entidad entrenable. En el codigo actual incluye entrenar() y calcularRendimiento().
+
+Es una interfaz implementada por Jugador. Define el comportamiento de una entidad entrenable mediante los métodos entrenar() y calcularRendimiento(). En este proyecto entrenar() mejora los niveles del jugador y calcularRendimiento() devuelve un valor numérico aproximado de su rendimiento.
 
 Equipo
-Representa un equipo de la liga. Tiene nombre, ciudad, entrenador, presupuesto, victorias, derrotas, puntos a favor, puntos en contra, un array fijo de titulares, una lista dinamica de suplentes y una lista de patrocinadores. Permite asignar entrenador, fichar titulares, fichar suplentes, eliminar jugadores, comprobar si un jugador pertenece al equipo, generar convocatorias validas, calcular coste total, calcular valor de patrocinio, calcular rendimiento del equipo y mostrar la plantilla completa.
+
+Representa un equipo de la liga. Tiene nombre, ciudad, entrenador, presupuesto, victorias, derrotas, puntos a favor, puntos en contra, un array fijo de titulares, una lista dinámica de suplentes y una lista de patrocinadores. Permite asignar entrenador, fichar titulares, fichar suplentes, eliminar jugadores, comprobar si un jugador pertenece al equipo, generar convocatorias válidas, calcular coste total, calcular valor de patrocinio, calcular rendimiento del equipo y mostrar la plantilla completa.
 
 Partido
-Representa un enfrentamiento entre dos equipos. Sus atributos principales son id, jornada, equipo local, equipo visitante, puntos local, puntos visitante, MVP y estado de disputado. Tambien incluye apoyo economico/apuestas de comunidad y un highlight del partido. Valida que el partido no tenga equipos nulos ni un equipo contra si mismo. Al disputarse genera un resultado aleatorio, actualiza estadisticas de equipos y jugadores, elige MVP y marca el partido como disputado.
+
+Representa un enfrentamiento entre dos equipos. Sus atributos principales son id, jornada, equipo local, equipo visitante, puntos local, puntos visitante, MVP y estado de disputado. También incluye apoyo económico o apuestas de comunidad y un highlight del partido. Valida que el partido no tenga equipos nulos ni un equipo contra sí mismo. Al disputarse, genera o registra un resultado, actualiza estadísticas de equipos y jugadores, elige MVP y marca el partido como disputado.
 
 Incidencia
-Representa una incidencia de la liga. Guarda id, tipo, descripcion, equipo relacionado y jugador relacionado. Si la incidencia es de tipo SANCION y tiene jugador asociado, aplica la sancion marcando al jugador como sancionado.
+
+Representa una incidencia de la liga. Guarda id, tipo, descripción, equipo relacionado y jugador relacionado. Si la incidencia es de tipo SANCION o EXPULSION y tiene un jugador asociado, aplica la sanción marcando al jugador como sancionado.
 
 Evento
-Representa actividades del dia del torneo, como apertura, musica, comida, shows, premios o patrocinadores. Tiene hora, nombre, descripcion, categoria y protagonista.
+
+Representa actividades del día del torneo, como apertura, música, comida, shows, premios o patrocinadores. Tiene hora, nombre, descripción, categoría y protagonista.
 
 Patrocinador
-Representa un patrocinador asociado a un equipo. Guarda nombre y aportacion economica. El equipo usa esta informacion para calcular el valor total de patrocinadores.
+
+Representa un patrocinador asociado a un equipo. Guarda nombre y aportación económica. El equipo usa esta información para calcular el valor total de patrocinadores.
 
 Rol
+
 Es un enum con los roles obligatorios de jugadores: TOP, JUNGLE, MID, ADC y SUPPORT.
 
 TipoIncidencia
+
 Es un enum con tipos de incidencias: SANCION, EXPULSION, ERROR_TECNICO, PARTIDO_APLAZADO y OTRO.
 
 CategoriaEvento
+
 Es un enum adicional para clasificar eventos: MUSICA, COMIDA, SHOW, PREMIOS y PATROCINADOR.
 
 Excepciones personalizadas
+
 El proyecto incluye PersonaDuplicadaException, EquipoDuplicadoException, RolNoDisponibleException, PartidoInvalidoException y JugadorSancionadoException. Todas heredan de Exception y se lanzan cuando se incumplen reglas del sistema.
 
-3. JUSTIFICACION DE PROGRAMACION ORIENTADA A OBJETOS
+3. JUSTIFICACIÓN DE PROGRAMACIÓN ORIENTADA A OBJETOS
 
-El proyecto usa encapsulacion porque los atributos principales de las clases son privados y se accede a ellos mediante getters, setters y metodos propios.
+El proyecto usa encapsulación porque los atributos principales de las clases son privados y se accede a ellos mediante getters, setters y métodos propios.
 
-Usa herencia porque Jugador y Entrenador heredan de PersonaLiga. Ambas clases comparten datos comunes, pero cada una tiene atributos y comportamientos especificos.
+Usa herencia porque Jugador y Entrenador heredan de PersonaLiga. Ambas clases comparten datos comunes, pero cada una tiene atributos y comportamientos específicos.
 
-Usa clases abstractas porque PersonaLiga no representa una persona concreta que deba instanciarse directamente, sino una base comun para jugadores y entrenadores.
+Usa clases abstractas porque PersonaLiga no representa una persona concreta que deba instanciarse directamente, sino una base común para jugadores y entrenadores.
 
 Usa polimorfismo porque la lista de personas de Liga es ArrayList<PersonaLiga>, pero puede contener objetos Jugador y Entrenador. Cada subclase implementa de forma distinta calcularCosteMensual() y mostrarResumen().
 
 Usa interfaces porque Jugador implementa Entrenable, indicando que los jugadores pueden entrenar y calcular rendimiento.
 
-Usa sobreescritura porque Jugador, Entrenador, Equipo, Partido, Evento, Patrocinador y PersonaLiga redefinen toString(), y Jugador/Entrenador redefinen los metodos abstractos heredados.
+Usa sobreescritura porque Jugador, Entrenador, Equipo, Partido, Evento, Patrocinador y PersonaLiga redefinen toString(), y Jugador y Entrenador implementan los métodos abstractos heredados.
 
-4. JUSTIFICACION DE ARRAYS
+4. JUSTIFICACIÓN DE ARRAYS
 
 El uso obligatorio de arrays se cumple en Equipo con el atributo:
 
 Jugador[] titulares = new Jugador[5];
 
-Este array representa los cinco titulares del equipo. Tiene sentido real porque cada posicion se relaciona con un rol mediante el ordinal del enum Rol. Asi se evita tener dos titulares con el mismo rol y se comprueba rapidamente si un rol ya esta ocupado.
+Este array representa los cinco titulares del equipo. Tiene sentido real porque cada posición se relaciona con un rol mediante el ordinal del enum Rol. De esta forma, TOP, JUNGLE, MID, ADC y SUPPORT tienen una posición concreta y se evita que haya dos titulares con el mismo rol.
 
-Tambien se usa un array en generarConvocatoriaValida(), donde se devuelve un Jugador[] de exactamente 5 jugadores para disputar un partido.
+También se usa un array en generarConvocatoriaValida(), donde se devuelve un Jugador[] de exactamente 5 jugadores para disputar un partido. Esta convocatoria comprueba que los jugadores no estén sancionados y que, si falta un titular o está sancionado, pueda entrar un suplente compatible.
+
+5. JUSTIFICACIÓN DE MATRICES
 
 El calendario usa una matriz bidimensional:
 
 Partido[][] calendario = new Partido[10][5];
 
-Cada fila representa una jornada y cada columna un partido de esa jornada. La matriz se usa para almacenar partidos, buscar huecos libres y mostrar el calendario.
+Cada fila representa una jornada y cada columna representa un hueco de partido dentro de esa jornada. Cuando se crea un partido, Liga busca la primera columna libre de la jornada y guarda el partido en esa posición.
 
-5. JUSTIFICACION DE LISTAS DINAMICAS
+La matriz no es decorativa: se usa para almacenar partidos, buscar huecos disponibles, mostrar el calendario completo y consultar una jornada concreta.
+
+6. JUSTIFICACIÓN DE LISTAS DINÁMICAS
 
 El proyecto usa ArrayList en varias partes:
 
@@ -101,9 +121,9 @@ ArrayList<Jugador> suplentes: guarda los suplentes de cada equipo.
 ArrayList<Patrocinador> patrocinadores: guarda patrocinadores de cada equipo.
 ArrayList<Evento> eventosDelDia: guarda el horario de eventos del torneo.
 
-La lista de suplentes cumple una funcion importante porque permite anadir, eliminar, recorrer y buscar suplentes compatibles para sustituir titulares sancionados o ausentes.
+La lista de suplentes cumple una función importante porque permite añadir, eliminar, recorrer y buscar suplentes compatibles para sustituir titulares sancionados o ausentes.
 
-6. JUSTIFICACION DE ESTRUCTURAS DINAMICAS PARA DUPLICADOS
+7. JUSTIFICACIÓN DE ESTRUCTURAS DINÁMICAS PARA DUPLICADOS
 
 La clase Liga usa HashSet para controlar duplicados:
 
@@ -111,52 +131,109 @@ HashSet<String> idsPersonas: evita registrar dos personas con el mismo ID.
 HashSet<String> nombresEquipos: evita crear dos equipos con el mismo nombre.
 HashSet<String> idsPartidos: evita crear dos partidos con el mismo ID.
 
-Se normalizan las claves con trim() y toLowerCase(), por lo que se detectan duplicados aunque haya diferencias de mayusculas/minusculas o espacios.
+Se normalizan las claves con trim() y toLowerCase(), por lo que se detectan duplicados aunque haya diferencias de mayúsculas, minúsculas o espacios al principio y al final.
 
-7. JUSTIFICACION DE COLA
+8. JUSTIFICACIÓN DE COLA
 
 La clase Liga usa una cola para los partidos pendientes:
 
 Queue<Partido> partidosPendientes = new LinkedList<Partido>();
 
-Los partidos se anaden con add() al crearlos. El siguiente partido se consulta con peek() y se disputa siguiendo el orden de llegada. Cuando se disputa, se elimina con poll(). Esto refleja el comportamiento FIFO: el primer partido que entra es el primero que se juega.
+Los partidos se añaden con add() al crearlos. El siguiente partido se consulta con peek() y se disputa siguiendo el orden de llegada. Cuando se disputa, se elimina con poll(). Esto refleja el comportamiento FIFO: el primer partido que entra es el primero que se juega. IMPORTANTE: poll() es como el remove(), pero lo uso porque devuelve null y así no tengo que manejar errores en cada caso.
 
-8. JUSTIFICACION DE PILA
+El menú permite ver el siguiente partido pendiente, mostrar todos los pendientes, disputar el siguiente partido y vaciar la cola cuando proceda.
+
+9. JUSTIFICACIÓN DE PILA
 
 La clase Liga usa una pila para el historial de acciones:
 
 Stack<String> historialAcciones;
 
-Las acciones se guardan con push(). La ultima accion se elimina con pop() en deshacerUltimaAccion(). Esto refleja el comportamiento LIFO: la ultima accion registrada es la primera que se deshace o elimina del historial.
+Las acciones se guardan con push(). La última acción se consulta como la más reciente y se puede eliminar con pop() en deshacerUltimaAccion(). Esto refleja el comportamiento LIFO: la última acción registrada es la primera que se deshace o elimina del historial.
 
-9. JUSTIFICACION DE LA MATRIZ DEL CALENDARIO
+Además, existe una segunda pila llamada accionesDeshacer, que guarda información interna para poder deshacer algunas acciones reales, como altas de personas, creación de equipos o creación de partidos pendientes.
 
-El calendario se representa con Partido[][]. Cada jornada tiene varios huecos para partidos. Cuando se crea un partido, Liga busca la primera columna libre de la jornada y guarda el partido en esa posicion.
+10. GESTIÓN DE PERSONAS DE LA LIGA
 
-Esto permite mostrar el calendario completo por jornadas y mantener los partidos organizados en una estructura bidimensional.
+El sistema permite dar de alta personas, listar todas las personas registradas, buscar una persona por identificador, modificar datos generales y eliminar personas cuando procede.
 
-10. EXPLICACION DE EXCEPCIONES
+La eliminación tiene validaciones. Por ejemplo, no se debe eliminar un jugador que pertenece a un equipo ni un entrenador que está asignado a un equipo. Esto evita dejar referencias incorrectas dentro de las plantillas.
+
+11. GESTIÓN DE EQUIPOS Y PLANTILLAS
+
+Cada equipo tiene nombre, ciudad, entrenador, presupuesto, victorias, derrotas, puntos a favor, puntos en contra, titulares y suplentes.
+
+El sistema permite crear equipos, asignar entrenadores, fichar jugadores como titulares o suplentes, mostrar la plantilla completa, sustituir titulares por suplentes, eliminar jugadores y mostrar el coste total del equipo.
+
+La regla de que no puede haber dos titulares con el mismo rol se controla usando el array de titulares. La posición del array depende del rol del jugador. Si ya existe un titular en esa posición, se lanza RolNoDisponibleException.
+
+12. CONVOCATORIAS Y SANCIONES
+
+Para disputar un partido, cada equipo genera una convocatoria válida mediante generarConvocatoriaValida(). Esta convocatoria debe tener exactamente 5 jugadores, uno por cada rol.
+
+Si el titular existe y no está sancionado, juega el titular. Si el titular falta o está sancionado, el sistema busca un suplente compatible del mismo rol. Si no hay suplente válido, se lanza una excepción.
+
+La sanción de un jugador se guarda en el atributo boolean sancionado de Jugador. El método esSancionado() permite consultar ese estado. Las clases Equipo y Liga usan ese método para impedir que un jugador sancionado entre en una convocatoria válida o sea elegido como candidato para determinadas operaciones.
+
+Las incidencias de tipo SANCION o EXPULSION llaman a aplicarSancion(), que marca al jugador relacionado como sancionado.
+
+13. REGISTRO DE PARTIDOS
+
+La clase Partido contiene la información principal del enfrentamiento: identificador, jornada, equipo local, equipo visitante, puntos de cada equipo, MVP y estado de disputado.
+
+El sistema permite crear partidos, registrar resultados manualmente, disputar partidos de forma automática, calcular el ganador, actualizar estadísticas de equipos, actualizar estadísticas individuales y evitar que se registre dos veces el mismo partido.
+
+También se validan partidos no válidos, como partidos con equipos nulos o un equipo contra sí mismo.
+
+14. CLASIFICACIÓN Y ESTADÍSTICAS
+
+La clasificación se calcula en Liga.obtenerClasificacionOrdenada(). Se crea una copia de la lista de equipos y se ordena con Collections.sort y Comparator.
+
+El criterio de ordenación es:
+
+Primero, más victorias.
+Segundo, mayor diferencia de puntos.
+Tercero, nombre del equipo en orden alfabético.
+
+Las estadísticas de equipos se actualizan al disputar partidos: victorias, derrotas, puntos a favor y puntos en contra. Las estadísticas de jugadores también se actualizan: partidas jugadas, MVP, puntos MVP y highlights.
+
+15. FORMATO DEL TORNEO
+
+El proyecto incluye un formato competitivo ampliado. Primero se disputan tres jornadas iniciales con los seis equipos cargados en el calendario. Al terminar esas jornadas, la liga ordena a los equipos por puntos de clasificación, diferencia de puntos y nombre.
+
+Los puntos de clasificación se calculan como 3 puntos por victoria. Solo pasan los cuatro primeros equipos. Los equipos en posición 5 y 6 quedan eliminados del torneo.
+
+Después se genera una fase final al mejor de 3. El primer clasificado juega contra el segundo por el primer y segundo puesto. El tercer clasificado juega contra el cuarto por el tercer y cuarto puesto. Cada serie se va generando poco a poco: si un equipo gana dos partidos, la serie termina y no hace falta jugar un tercer partido.
+
+Al finalizar las dos series se muestran los puestos finales del torneo.
+
+16. EXPLICACIÓN DE EXCEPCIONES
 
 PersonaDuplicadaException
+
 Se lanza cuando se intenta dar de alta una persona con un ID que ya existe. Se usa en Liga.altaPersona().
 
 EquipoDuplicadoException
+
 Se lanza cuando se intenta crear un equipo con un nombre ya registrado. Se usa en Liga.crearEquipo().
 
 RolNoDisponibleException
-Se lanza cuando se intenta poner como titular a un jugador cuyo rol ya esta ocupado, o cuando falta un jugador para completar una convocatoria valida.
+
+Se lanza cuando se intenta poner como titular a un jugador cuyo rol ya está ocupado, cuando un suplente no tiene el rol adecuado o cuando falta un jugador para completar una convocatoria válida.
 
 PartidoInvalidoException
-Se lanza cuando un partido tiene datos invalidos: ID vacio, jornada invalida, partido duplicado, equipos nulos o un equipo contra si mismo.
+
+Se lanza cuando un partido tiene datos inválidos: ID vacío, jornada inválida, partido duplicado, equipos nulos, un equipo contra sí mismo, resultado negativo, empate o intento de registrar dos veces el mismo partido.
 
 JugadorSancionadoException
-Se lanza cuando un titular esta sancionado y no hay suplente valido disponible para cubrir su rol.
 
-Ademas, se usan excepciones estandar como IllegalArgumentException para validar datos incorrectos y NumberFormatException para controlar entradas numericas invalidas por teclado.
+Se lanza cuando un jugador sancionado no puede participar y no existe un suplente válido disponible para cubrir su rol.
 
-11. FUNCIONAMIENTO GENERAL DEL MENU
+Además, se usan excepciones estándar como IllegalArgumentException para validar datos incorrectos y NumberFormatException para controlar entradas numéricas inválidas por teclado.
 
-El menu de MainEsports permite:
+17. FUNCIONAMIENTO GENERAL DEL MENÚ
+
+El menú de MainEsports permite:
 
 Mostrar personas registradas.
 Buscar una persona por ID.
@@ -173,61 +250,38 @@ Consultar una jornada concreta.
 Ver el siguiente partido pendiente.
 Mostrar todos los partidos pendientes.
 Vaciar la cola de partidos pendientes.
-Anadir apoyo economico al siguiente partido.
+Añadir apoyo económico al siguiente partido.
 Registrar manualmente el resultado del siguiente partido.
-Disputar el siguiente partido automaticamente.
+Disputar el siguiente partido automáticamente.
 Registrar, listar y buscar incidencias por equipo o jugador.
-Mostrar clasificacion.
+Mostrar clasificación.
 Mostrar eventos del torneo.
 Mostrar historial.
-Deshacer la ultima accion del historial.
+Deshacer la última acción del historial.
 Entregar premios finales.
 Salir.
 
-12. ESTADISTICAS Y CLASIFICACION
+18. FUNCIONALIDADES EXTRA AÑADIDAS
 
-La clasificacion se calcula en Liga.obtenerClasificacionOrdenada(). Se crea una copia de la lista de equipos y se ordena con Collections.sort y Comparator.
+El proyecto incluye algunas ampliaciones coherentes con la temática:
 
-El criterio de ordenacion es:
-
-Primero, mas victorias.
-Segundo, mayor diferencia de puntos.
-Tercero, nombre del equipo en orden alfabetico.
-
-Las estadisticas de equipos se actualizan al disputar partidos: victorias, derrotas, puntos a favor y puntos en contra. Las estadisticas de jugadores tambien se actualizan: partidas jugadas, MVP, puntos MVP y highlights.
-
-Formato del torneo actualizado:
-
-Primero se disputan las tres jornadas iniciales con los seis equipos cargados en el calendario.
-Al terminar esas jornadas, la liga ordena a los equipos por puntos de clasificacion, diferencia de puntos y nombre.
-Los puntos de clasificacion se calculan como 3 puntos por victoria.
-Solo pasan los cuatro primeros equipos.
-Los equipos en posicion 5 y 6 quedan eliminados del torneo.
-El primer clasificado juega contra el segundo una serie al mejor de 3 por el primer y segundo puesto.
-El tercer clasificado juega contra el cuarto una serie al mejor de 3 por el tercer y cuarto puesto.
-Cada serie se va generando poco a poco: si un equipo gana dos partidos, la serie termina y no se necesita un tercer partido.
-Al finalizar las dos series se muestran los puestos finales del torneo.
-
-13. FUNCIONALIDADES EXTRA ANADIDAS
-
-El proyecto incluye algunas ampliaciones coherentes con la tematica:
-
-Eventos del dia del torneo.
+Eventos del día del torneo.
 Patrocinadores de equipos.
-Apoyo economico/apuestas de comunidad antes de los partidos.
+Apoyo económico o apuestas de comunidad antes de los partidos.
 Highlights y premios finales.
-Generacion aleatoria de resultados y eventos.
+Generación aleatoria de resultados y eventos.
+Fase final al mejor de 3.
 
-Estas funcionalidades no aparecen como obligatorias en el enunciado, pero el PDF permite ampliar la estructura si se considera oportuno. Conviene explicarlas en la defensa como extras que no sustituyen a las partes obligatorias.
+Estas funcionalidades no aparecen como obligatorias en el enunciado, pero son coherentes con una competición de e-sports y amplían el proyecto sin sustituir las partes obligatorias.
 
-14. REVISION DE USO DE CONTENIDOS DEL TEMARIO
+19. REVISIÓN DE CONTENIDOS DEL TEMARIO
 
-Elementos claramente vistos o pedidos en la documentacion:
+El proyecto utiliza contenidos trabajados durante el curso:
 
 Clases y objetos.
 Constructores.
 Getters y setters.
-Encapsulacion.
+Encapsulación.
 Herencia.
 Polimorfismo.
 Clases abstractas.
@@ -248,45 +302,12 @@ Scanner.
 toString.
 instanceof.
 
-Elementos que aparecen en el codigo y no son el centro del enunciado:
+También aparecen elementos adicionales como java.util.Random, patrocinadores, eventos, apoyo económico, highlights y premios. 
 
-java.util.Random: se usa para generar eventos, dinero inicial, resultados, MVP y highlights. No es un problema grave, pero conviene justificarlo como una forma sencilla de simular una competicion. En los apuntes se menciona Math.random, pero Random es una clase estandar de java.util.
-Modulo module-info.java: viene de la estructura del proyecto Eclipse. No afecta a la logica del proyecto.
-Patrocinadores, eventos, apuestas/apoyo economico, highlights y premios: son extras del dominio, no requisitos obligatorios. Son defendibles si se presentan como ampliaciones.
-Multi-catch: se usa para capturar varias excepciones en un mismo catch. Es una forma compacta de try-catch. Si el profesor no lo ha explicado, se puede sustituir por varios catch separados, pero no es una tecnica avanzada problematica.
+20. CONCLUSIÓN
 
-15. CAMBIOS REALIZADOS TRAS LA REVISION
+El proyecto está bien orientado al enunciado del PDF. Usa programación orientada a objetos, herencia, clase abstracta, interfaz, enums, arrays, matriz, ArrayList, HashSet, Queue, Stack, excepciones propias y menú por consola.
 
-Se ha ajustado la interfaz Entrenable para que el metodo entrenar() sea void, tal como aparece en el enunciado del proyecto. La clase Jugador mantiene la logica de entrenamiento, pero ya no devuelve boolean.
+La estructura general separa la lógica del menú y reparte responsabilidades entre clases. Liga coordina el funcionamiento general, Equipo gestiona plantillas, Partido controla enfrentamientos y estadísticas, Jugador y Entrenador representan personas concretas de la liga, e Incidencia permite registrar sanciones y problemas durante la competición.
 
-Se ha anadido busqueda general de personas por ID mediante buscarPersonaPorId() y mostrarPersonaPorId() en Liga. Esta funcionalidad esta disponible desde el menu principal.
-
-Se ha anadido modificacion de datos de personas mediante modificarDatosPersona(). Permite cambiar nombre, nickname, edad y salario base, que son datos generales de PersonaLiga.
-
-Se ha anadido eliminacion de personas mediante eliminarPersona(). La eliminacion se impide cuando el jugador pertenece a un equipo o cuando el entrenador esta asignado a un equipo, cumpliendo la idea de eliminar solo cuando proceda.
-
-Se ha anadido sustitucion manual de titulares por suplentes. Equipo tiene sustituirTitularPorSuplente(), que valida rol compatible, que el jugador sea suplente del equipo y que no este sancionado. Liga expone esta operacion desde el menu.
-
-Se ha ampliado la gestion de calendario con mostrarJornada(), que permite consultar una jornada concreta y ver sus partidos y resultados si ya se han disputado.
-
-Se ha anadido vaciado explicito de la cola de partidos con vaciarPartidosPendientes(). La cola sigue funcionando como FIFO, pero ahora tambien puede limpiarse cuando proceda.
-
-Se ha anadido registro manual de resultados del siguiente partido pendiente. Partido incorpora registrarResultadoManual(), que valida que el partido no este disputado, que los puntos no sean negativos, que no haya empate y que las convocatorias sean validas. Liga lo usa desde registrarResultadoManualSiguientePartido().
-
-Se ha ampliado la gestion de incidencias. Ahora el menu permite registrar incidencias, listarlas, buscarlas por equipo y buscarlas por jugador. Si la incidencia es de tipo SANCION y tiene jugador relacionado, se aplica la sancion al jugador.
-
-Se ha ampliado el menu principal para que las funcionalidades obligatorias sean comprobables directamente por consola.
-
-Se ha cambiado el formato competitivo del torneo. Ahora las tres primeras jornadas funcionan como fase inicial de seis equipos. Al finalizar, solo los cuatro mejores por puntos pasan a la fase final. Los dos equipos restantes quedan eliminados.
-
-Se ha anadido una fase final al mejor de 3. El primer clasificado juega contra el segundo por el primer y segundo puesto, y el tercer clasificado juega contra el cuarto por el tercer y cuarto puesto.
-
-Se ha anadido un sistema de incidencias aleatorias despues de los partidos. No siempre ocurre una incidencia. Cuando ocurre, puede ser una sancion a un jugador, una expulsion, un error tecnico o una incidencia administrativa. Las sanciones se generan con cuidado para no romper automaticamente una convocatoria si el equipo no tiene suplente compatible.
-
-Se ha corregido el funcionamiento de deshacer ultima accion. Antes solo se eliminaba el texto del historial. Ahora la clase Liga mantiene una segunda pila con la operacion real que debe deshacerse. Por ejemplo, si se crea un jugador libre y se deshace inmediatamente, el jugador se elimina realmente de la lista de personas y tambien del conjunto de IDs registrados. Tambien se ha preparado deshacer para creacion de equipos y partidos pendientes cuando no hayan sido usados todavia.
-
-16. CONCLUSION
-
-El proyecto esta bien orientado al enunciado: usa POO, herencia, clase abstracta, interfaz, enums, arrays, matriz, ArrayList, HashSet, Queue, Stack, excepciones propias y menu por consola. La estructura general es coherente y separa bastante bien la logica del menu.
-
-Tras la revision, las funcionalidades que antes no estaban expuestas claramente se han anadido al codigo y al menu principal. Los extras como eventos, patrocinadores, apuestas, highlights y premios aportan personalidad al proyecto, pero ahora las partes obligatorias tambien son comprobables directamente.
+Los extras como eventos, patrocinadores, apuestas, highlights, premios y fase final aportan personalidad al proyecto, pero las funcionalidades obligatorias del enunciado también están presentes y se pueden comprobar desde el menú principal.
