@@ -39,9 +39,10 @@ Fecha: 30/05/2026
 
 ## Fase 4: Telegram
 
-- Integrar bot.
-- Reutilizar backend o cliente comun.
-- Crear servicio systemd.
+- Integrar bot. Estado: completado en `app/telegram_bot.py`.
+- Reutilizar backend o cliente comun. Estado: completado con cliente comun de Ollama.
+- Probar bot manualmente. Estado: pendiente.
+- Crear servicio systemd. Estado: pendiente.
 
 ## Fase 5: Web
 

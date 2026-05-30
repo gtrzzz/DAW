@@ -45,7 +45,9 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Portatil servidor preparado con Linux Mint e IP `192.168.1.138`.
 - Backend comun inicial creado con FastAPI.
 - Backend validado en Linux Mint con respuesta `OK` desde Ollama.
-- Pendiente integrar bot y web.
+- Bot de Telegram inicial creado.
+- Pendiente validar bot en el portatil y crear servicio systemd.
+- Pendiente crear web.
 - Pendiente crear regla de firewall de Windows como administrador.
 
 ## Reglas Del Proyecto
