@@ -30,10 +30,11 @@ Fecha: 30/05/2026
 
 ## Fase 3: Backend Comun
 
-- Crear API.
-- Crear cliente Ollama.
-- Crear endpoint de chat.
-- Crear endpoint de estado.
+- Crear API. Estado: completado con FastAPI.
+- Crear cliente Ollama. Estado: completado.
+- Crear endpoint de chat. Estado: completado en `/api/chat`.
+- Crear endpoint de estado. Estado: completado en `/api/status`.
+- Crear endpoint de salud. Estado: completado en `/api/health`.
 
 ## Fase 4: Telegram
 

@@ -43,7 +43,8 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Modelo `llama3.1:8b` instalado y probado.
 - Prueba desde Linux Mint realizada correctamente.
 - Portatil servidor preparado con Linux Mint e IP `192.168.1.138`.
-- Pendiente crear backend, bot y web.
+- Backend comun inicial creado con FastAPI.
+- Pendiente integrar bot y web.
 - Pendiente crear regla de firewall de Windows como administrador.
 
 ## Reglas Del Proyecto
