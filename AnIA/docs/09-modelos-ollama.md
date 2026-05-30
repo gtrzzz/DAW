@@ -6,7 +6,7 @@ Fecha: 30/05/2026
 
 Elegir modelos adecuados para AnIA segun calidad, velocidad y memoria disponible.
 
-El PC principal tiene una NVIDIA RTX 5070 con 12 GB de VRAM. Esto permite usar modelos de 7B, 8B y algunos 14B cuantizados.
+El PC principal tiene una NVIDIA RTX 5070 con 12 GB de VRAM. Esto permite usar modelos de 7B, 8B, 14B y algunos modelos MoE mas grandes si la cuantizacion y descarga son adecuadas.
 
 ## Modelos Instalados
 
@@ -14,11 +14,18 @@ El PC principal tiene una NVIDIA RTX 5070 con 12 GB de VRAM. Esto permite usar m
 llama3.2:3b
 llama3.1:8b
 qwen2.5:14b
+qwen3:30b-a3b
 ```
 
 ## Recomendacion Actual
 
 Para respuestas con mas conocimiento general y mejor razonamiento:
+
+```text
+qwen3:30b-a3b
+```
+
+Alternativa equilibrada si `qwen3:30b-a3b` resulta demasiado pesado:
 
 ```text
 qwen2.5:14b
@@ -37,6 +44,7 @@ llama3.1:8b
 | `llama3.2:3b` | Baja-media | Muy rapida | Pruebas rapidas |
 | `llama3.1:8b` | Buena | Rapida | Uso diario equilibrado |
 | `qwen2.5:14b` | Mejor | Mas lenta | Conocimiento general y respuestas mas completas |
+| `qwen3:30b-a3b` | Avanzada | Mas lenta | Mejor razonamiento y modelo mas reciente |
 
 ## Instalar Modelo Superior
 
@@ -46,10 +54,17 @@ En el PC principal:
 ollama pull qwen2.5:14b
 ```
 
+Para el modelo avanzado Qwen3 MoE:
+
+```powershell
+ollama pull qwen3:30b-a3b
+```
+
 Validado el 30/05/2026:
 
 ```text
 qwen2.5:14b instalado y probado correctamente.
+qwen3:30b-a3b instalado y probado correctamente.
 ```
 
 Prueba realizada:
@@ -64,6 +79,21 @@ Resultado:
 ```text
 OK
 ```
+
+Prueba de `qwen3:30b-a3b` realizada:
+
+```powershell
+curl http://192.168.1.133:11434/api/generate `
+  -d '{"model":"qwen3:30b-a3b","system":"Responde en espanol claro y directo.","prompt":"Di solo OK si funcionas.","stream":false}'
+```
+
+Resultado:
+
+```text
+OK
+```
+
+Nota: Qwen3 puede devolver un campo adicional `thinking` en la API de Ollama. AnIA usa el campo `response`, por lo que Telegram debe mostrar la respuesta final, no el razonamiento interno.
 
 ## Cambiar Modelo En El Portatil
 
@@ -83,7 +113,7 @@ OLLAMA_MODEL=llama3.1:8b
 Por:
 
 ```env
-OLLAMA_MODEL=qwen2.5:14b
+OLLAMA_MODEL=qwen3:30b-a3b
 ```
 
 Reiniciar el bot:
