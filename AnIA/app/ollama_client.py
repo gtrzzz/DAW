@@ -23,6 +23,7 @@ async def generate_response(prompt: str) -> str:
     payload = {
         "model": settings.ollama_model,
         "prompt": prompt,
+        "system": settings.ollama_system_prompt,
         "stream": False,
     }
 

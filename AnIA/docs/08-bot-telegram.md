@@ -44,6 +44,7 @@ APP_NAME=AnIA
 TELEGRAM_BOT_TOKEN=token_real_aqui
 OLLAMA_URL=http://192.168.1.133:11434
 OLLAMA_MODEL=llama3.1:8b
+OLLAMA_SYSTEM_PROMPT=Eres AnIA, una asistente de IA local. Responde siempre en espanol claro, directo y util.
 OLLAMA_TIMEOUT=120
 ```
 
@@ -77,6 +78,8 @@ Ctrl+C
 ```
 
 Los mensajes normales se envian a Ollama y la respuesta vuelve por Telegram.
+
+Si el modelo responde en ingles o rechaza pruebas simples, ajustar `OLLAMA_SYSTEM_PROMPT` en `.env` y reiniciar el bot.
 
 ## Prueba Recomendada
 

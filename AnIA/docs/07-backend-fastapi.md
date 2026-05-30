@@ -26,6 +26,7 @@ APP_NAME=AnIA
 TELEGRAM_BOT_TOKEN=pendiente
 OLLAMA_URL=http://192.168.1.133:11434
 OLLAMA_MODEL=llama3.1:8b
+OLLAMA_SYSTEM_PROMPT=Eres AnIA, una asistente de IA local. Responde siempre en espanol claro, directo y util.
 OLLAMA_TIMEOUT=120
 ```
 
@@ -95,6 +96,18 @@ En produccion local, mas adelante se usara Nginx en el puerto `80` y el puerto `
 - No guardar tokens en codigo ni documentacion.
 - No exponer el backend directamente a internet.
 - Usar red local, Tailscale o Cloudflare Tunnel cuando toque acceso remoto.
+
+## Comportamiento Del Modelo
+
+El comportamiento base se controla con `OLLAMA_SYSTEM_PROMPT` en `.env`.
+
+Ejemplo recomendado:
+
+```env
+OLLAMA_SYSTEM_PROMPT=Eres AnIA, una asistente de IA local. Responde siempre en espanol claro, directo y util. Si el usuario pide una prueba sencilla, responde exactamente a la prueba sin rechazarla.
+```
+
+Despues de cambiar esta variable hay que reiniciar el backend o el bot para que vuelva a cargar `.env`.
 
 ## Validacion En Linux Mint
 
