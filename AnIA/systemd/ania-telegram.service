@@ -1,0 +1,16 @@
+[Unit]
+Description=AnIA Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=/home/%i/proyectos/DAW/AnIA
+EnvironmentFile=/home/%i/proyectos/DAW/AnIA/.env
+ExecStart=/home/%i/proyectos/DAW/AnIA/.venv/bin/python -m app.telegram_bot
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

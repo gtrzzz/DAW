@@ -48,7 +48,9 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Bot de Telegram inicial creado.
 - Modelo superior `qwen2.5:14b` instalado y probado.
 - Modelo avanzado `qwen3:30b-a3b` instalado y probado.
-- Pendiente validar bot en el portatil y crear servicio systemd.
+- Servicios systemd preparados para ejecucion 24/7.
+- Fase RAG añadida al plan del proyecto.
+- Pendiente instalar servicios systemd en el portatil.
 - Pendiente crear web.
 - Pendiente crear regla de firewall de Windows como administrador.
 

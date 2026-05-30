@@ -52,12 +52,20 @@ Fecha: 30/05/2026
 
 ## Fase 6: Produccion Local
 
-- Servicios systemd.
+- Servicios systemd. Estado: preparado con `ania-api@.service` y `ania-telegram@.service`.
 - Logs.
 - Seguridad basica.
 - Backups.
 
-## Fase 7: Extras
+## Fase 7: RAG
+
+- Investigar embeddings locales.
+- Elegir base vectorial.
+- Indexar documentos Markdown y TXT.
+- Crear endpoint RAG.
+- Integrar RAG con Telegram y web.
+
+## Fase 8: Extras
 
 - Wake-on-LAN.
 - Selector de modelo.
