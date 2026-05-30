@@ -153,6 +153,45 @@ Si el servicio no arranca, revisar logs:
 journalctl -u ania-telegram@TU_USUARIO.service -n 100 --no-pager
 ```
 
+Tambien revisar el servicio API si falla:
+
+```bash
+journalctl -u ania-api@TU_USUARIO.service -n 100 --no-pager
+```
+
+### Ya Hay Un Proceso Manual Corriendo
+
+Si antes se arranco manualmente el bot o la API, detener esas terminales con:
+
+```text
+Ctrl+C
+```
+
+Comprobar si el puerto `8000` ya esta ocupado:
+
+```bash
+sudo ss -ltnp | grep ':8000'
+```
+
+Comprobar procesos de AnIA:
+
+```bash
+ps aux | grep -E 'uvicorn|telegram_bot' | grep -v grep
+```
+
+Si hay procesos manuales antiguos, cerrarlos antes de arrancar systemd.
+
+### Reinicio Limpio
+
+```bash
+sudo systemctl stop ania-api@TU_USUARIO.service
+sudo systemctl stop ania-telegram@TU_USUARIO.service
+sudo systemctl reset-failed ania-api@TU_USUARIO.service
+sudo systemctl reset-failed ania-telegram@TU_USUARIO.service
+sudo systemctl start ania-api@TU_USUARIO.service
+sudo systemctl start ania-telegram@TU_USUARIO.service
+```
+
 Si aparece `Falta TELEGRAM_BOT_TOKEN`, revisar `.env`.
 
 Si aparece error de conexion con Ollama, comprobar que el PC principal esta encendido y que responde:
