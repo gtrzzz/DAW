@@ -145,6 +145,12 @@ Cuando el portatil este instalado y conectado a la misma red:
 curl http://192.168.1.133:11434/api/tags
 ```
 
+Resultado validado el 30/05/2026 desde Linux Mint:
+
+```text
+La peticion devolvio un JSON con el modelo llama3.1:8b disponible.
+```
+
 Prueba de generacion:
 
 ```bash
