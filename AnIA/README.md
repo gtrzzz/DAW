@@ -46,6 +46,7 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Backend comun inicial creado con FastAPI.
 - Backend validado en Linux Mint con respuesta `OK` desde Ollama.
 - Bot de Telegram inicial creado.
+- Modelo superior `qwen2.5:14b` instalado y probado.
 - Pendiente validar bot en el portatil y crear servicio systemd.
 - Pendiente crear web.
 - Pendiente crear regla de firewall de Windows como administrador.
