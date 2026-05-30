@@ -41,7 +41,8 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Repositorio conectado y subido a GitHub.
 - PC principal probado con Ollama en red local.
 - Modelo `llama3.1:8b` instalado y probado.
-- Pendiente preparar portatil servidor.
+- Prueba desde Linux Mint realizada correctamente.
+- Portatil servidor preparado con Linux Mint e IP `192.168.1.138`.
 - Pendiente crear backend, bot y web.
 - Pendiente crear regla de firewall de Windows como administrador.
 

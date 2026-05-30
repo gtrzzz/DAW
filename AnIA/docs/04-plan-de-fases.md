@@ -19,10 +19,14 @@ Fecha: 30/05/2026
 
 ## Fase 2: Portatil Servidor
 
-- Instalar Debian 12 o Ubuntu Server.
-- Activar SSH.
-- Fijar IP local.
-- Probar conexion con Ollama.
+- Usar Linux Mint inicialmente para aprovechar que ya funciona la conexion con Ollama.
+- Actualizar sistema e instalar herramientas base. Estado: completado.
+- Activar SSH. Estado: completado.
+- Configurar firewall con UFW. Estado: completado.
+- Identificar IP local. Estado: completado con `192.168.1.138`.
+- Clonar repo `gtrzzz/DAW`. Estado: completado.
+- Crear entorno Python para `AnIA`. Estado: completado.
+- Probar conexion con Ollama. Estado: completado.
 
 ## Fase 3: Backend Comun
 
