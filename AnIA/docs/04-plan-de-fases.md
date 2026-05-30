@@ -12,10 +12,10 @@ Fecha: 30/05/2026
 
 ## Fase 1: PC Principal Con Ollama
 
-- Configurar Ollama para red local.
-- Abrir firewall de Windows.
-- Probar `http://192.168.1.133:11434/api/tags`.
-- Instalar modelo recomendado.
+- Configurar Ollama para red local. Estado: completado.
+- Abrir firewall de Windows. Estado: pendiente de PowerShell como administrador.
+- Probar `http://192.168.1.133:11434/api/tags`. Estado: completado.
+- Instalar modelo recomendado. Estado: completado con `llama3.1:8b`.
 
 ## Fase 2: Portatil Servidor
 

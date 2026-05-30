@@ -38,9 +38,12 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Repositorio local inicializado.
 - Estructura base creada.
 - Documentacion inicial creada.
-- Pendiente conectar con GitHub.
+- Repositorio conectado y subido a GitHub.
+- PC principal probado con Ollama en red local.
+- Modelo `llama3.1:8b` instalado y probado.
 - Pendiente preparar portatil servidor.
 - Pendiente crear backend, bot y web.
+- Pendiente crear regla de firewall de Windows como administrador.
 
 ## Reglas Del Proyecto
 
