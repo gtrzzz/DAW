@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Entorno y secretos
+.env
+*.env
+!.env.example
+secrets/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Obsidian local
+obsidian/.obsidian/workspace.json
+obsidian/.obsidian/workspace-mobile.json
