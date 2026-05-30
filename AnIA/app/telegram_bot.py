@@ -2,6 +2,7 @@ import logging
 
 from telegram import Update
 from telegram.constants import ChatAction
+from telegram.error import InvalidToken, TelegramError
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
 from app.config import settings
@@ -64,13 +65,26 @@ def main() -> None:
     if not settings.telegram_bot_token:
         raise RuntimeError("Falta TELEGRAM_BOT_TOKEN en el archivo .env")
 
-    application = Application.builder().token(settings.telegram_bot_token).build()
+    try:
+        application = Application.builder().token(settings.telegram_bot_token).build()
+    except InvalidToken as exc:
+        raise RuntimeError(
+            "El token de Telegram no es valido. Revisa TELEGRAM_BOT_TOKEN en .env o regeneralo en BotFather."
+        ) from exc
+
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("health", health))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     logger.info("Iniciando bot de Telegram de AnIA")
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    try:
+        application.run_polling(allowed_updates=Update.ALL_TYPES)
+    except InvalidToken as exc:
+        raise RuntimeError(
+            "Telegram ha rechazado el token. Revisa TELEGRAM_BOT_TOKEN en .env o crea uno nuevo con BotFather."
+        ) from exc
+    except TelegramError as exc:
+        raise RuntimeError(f"Error de Telegram al iniciar el bot: {exc}") from exc
 
 
 if __name__ == "__main__":

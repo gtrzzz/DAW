@@ -112,6 +112,54 @@ Si el bot no arranca:
 - Revisar que `TELEGRAM_BOT_TOKEN` esta definido.
 - Revisar que las dependencias estan instaladas.
 
+## Error `Unauthorized`
+
+Si aparece un error similar a:
+
+```text
+telegram.error.InvalidToken
+telegram.error.Unauthorized
+Unauthorized
+```
+
+La causa mas probable es que Telegram esta rechazando el token.
+
+Comprobar que el token esta cargado sin mostrarlo completo:
+
+```bash
+python - <<'PY'
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+token = os.getenv('TELEGRAM_BOT_TOKEN', '')
+print('token definido:', bool(token))
+print('longitud:', len(token))
+print('empieza por:', token[:8])
+PY
+```
+
+Probar el token directamente contra Telegram:
+
+```bash
+source .env
+curl "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe"
+```
+
+Resultado correcto:
+
+```json
+{"ok":true,...}
+```
+
+Resultado incorrecto:
+
+```json
+{"ok":false,"error_code":401,"description":"Unauthorized"}
+```
+
+Si sale `Unauthorized`, regenerar el token en BotFather y actualizar `.env`.
+
 ## Siguiente Paso
 
 Cuando el bot funcione manualmente, se creara un servicio `systemd` para que arranque solo al encender el portatil.
