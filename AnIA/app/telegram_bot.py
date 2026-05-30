@@ -7,6 +7,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 
 from app.config import settings
 from app.ollama_client import OllamaError, generate_response
+from app.rag import rag_answer
 
 
 logging.basicConfig(
@@ -34,6 +35,33 @@ async def health(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         f"AnIA esta activa. Modelo actual: {settings.ollama_model}"
     )
+
+
+async def rag(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if update.message is None or update.effective_chat is None:
+        return
+
+    question = " ".join(context.args).strip()
+    if not question:
+        await update.message.reply_text("Uso: /rag pregunta usando tus documentos")
+        return
+
+    await context.bot.send_chat_action(chat_id=update.effective_chat.id, action=ChatAction.TYPING)
+
+    try:
+        response, sources = await rag_answer(question)
+    except OllamaError:
+        logger.exception("Error al consultar RAG/Ollama")
+        await update.message.reply_text(
+            "No puedo consultar el RAG ahora mismo. Comprueba Ollama y que los documentos esten indexados."
+        )
+        return
+
+    if sources:
+        source_lines = "\n".join(f"- {source.path}" for source in sources[:5])
+        response = f"{response}\n\nFuentes:\n{source_lines}"
+
+    await update.message.reply_text(response)
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -74,6 +102,7 @@ def main() -> None:
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("health", health))
+    application.add_handler(CommandHandler("rag", rag))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     logger.info("Iniciando bot de Telegram de AnIA")

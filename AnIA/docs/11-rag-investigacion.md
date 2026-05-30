@@ -66,15 +66,161 @@ ChromaDB
 
 Motivo: simple, local y suficiente para una primera version.
 
+## Primera Implementacion
+
+Estado: preparada el 30/05/2026.
+
+Componentes añadidos:
+
+```text
+app/rag.py                 Logica RAG.
+scripts/ingest_rag.py      Indexador de documentos.
+knowledge/                 Carpetas tematicas locales.
+data/chroma/               Base vectorial local, ignorada por Git.
+```
+
+Endpoints añadidos:
+
+```text
+POST /api/rag/index
+POST /api/rag/chat
+```
+
+Comando Telegram añadido:
+
+```text
+/rag pregunta usando documentos
+```
+
+## Temas Iniciales
+
+Se han creado carpetas para estos temas:
+
+```text
+programacion
+ia
+musica
+coches
+algeciras
+diseno-grafico
+blender
+java
+html
+css
+guitarra
+spotify
+recetas-cocina
+fitness
+hipertrofia
+nutricion
+```
+
+Cada carpeta puede contener documentos `.md` o `.txt`.
+
+## Instalar Dependencias
+
+En el portatil:
+
+```bash
+cd ~/proyectos/DAW/AnIA
+git pull
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Modelo De Embeddings
+
+La primera version usa embeddings desde Ollama:
+
+```env
+RAG_EMBED_MODEL=nomic-embed-text
+```
+
+Antes de indexar documentos hay que instalar el modelo de embeddings en el PC principal:
+
+```powershell
+ollama pull nomic-embed-text
+```
+
+No es un modelo de chat. Solo sirve para convertir texto en vectores de busqueda.
+
+## Añadir Documentos
+
+Ejemplo para hipertrofia:
+
+```bash
+cd ~/proyectos/DAW/AnIA
+nano knowledge/hipertrofia/conceptos-basicos.md
+```
+
+Ejemplo de contenido:
+
+```markdown
+# Hipertrofia - Conceptos Basicos
+
+La hipertrofia muscular es el aumento del tamano de las fibras musculares.
+Factores clave: tension mecanica, volumen efectivo, proximidad al fallo, recuperacion y nutricion.
+```
+
+## Indexar Documentos
+
+```bash
+cd ~/proyectos/DAW/AnIA
+source .venv/bin/activate
+python -m scripts.ingest_rag
+```
+
+Resultado esperado:
+
+```text
+Archivos indexados: N
+Fragmentos indexados: N
+```
+
+## Consultar RAG Por API
+
+```bash
+curl http://127.0.0.1:8000/api/rag/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Que sabes sobre hipertrofia segun mis documentos?"}'
+```
+
+## Consultar RAG Por Telegram
+
+```text
+/rag Que sabes sobre hipertrofia segun mis documentos?
+```
+
+## Privacidad
+
+La carpeta `knowledge/` esta configurada para no subir documentos privados a GitHub.
+
+Se suben solo los `README.md` de estructura.
+
+La base vectorial local `data/chroma/` tampoco se sube.
+
+## RAG No Es Entrenamiento
+
+RAG no entrena el modelo ni modifica sus pesos. Lo que hace es buscar informacion relevante en tus documentos y pasarla como contexto al modelo.
+
+Ventaja:
+
+- Mas seguro.
+- Mas rapido.
+- Reversible.
+- Permite fuentes concretas.
+
+Entrenar o ajustar un modelo seria otra fase distinta y mucho mas costosa.
+
 ## Fases RAG
 
 ### Fase RAG 1: Prototipo Local
 
-- Crear carpeta `knowledge/` ignorada por Git si contiene documentos privados.
-- Indexar archivos `.md` y `.txt`.
-- Generar embeddings.
-- Guardar indice local.
-- Crear endpoint `/api/rag/chat`.
+- Crear carpeta `knowledge/` ignorada por Git si contiene documentos privados. Estado: completado.
+- Indexar archivos `.md` y `.txt`. Estado: completado.
+- Generar embeddings. Estado: completado mediante Ollama.
+- Guardar indice local. Estado: completado con ChromaDB.
+- Crear endpoint `/api/rag/chat`. Estado: completado.
 
 ### Fase RAG 2: PDFs Y Documentacion
 

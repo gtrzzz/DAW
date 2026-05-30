@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 
 from app.config import settings
 from app.ollama_client import OllamaError, generate_response, list_models
+from app.rag import index_knowledge, rag_answer
 
 
 app = FastAPI(title=settings.app_name)
@@ -15,6 +16,17 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     response: str
     model: str
+
+
+class RagResponse(BaseModel):
+    response: str
+    model: str
+    sources: list[dict[str, object]]
+
+
+class RagIndexResponse(BaseModel):
+    files: int
+    chunks: int
 
 
 @app.get("/api/health")
@@ -48,3 +60,27 @@ async def chat(request: ChatRequest) -> ChatResponse:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
     return ChatResponse(response=response, model=settings.ollama_model)
+
+
+@app.post("/api/rag/index", response_model=RagIndexResponse)
+async def rag_index() -> RagIndexResponse:
+    try:
+        result = await index_knowledge()
+    except OllamaError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    return RagIndexResponse(files=result["files"], chunks=result["chunks"])
+
+
+@app.post("/api/rag/chat", response_model=RagResponse)
+async def rag_chat(request: ChatRequest) -> RagResponse:
+    try:
+        response, sources = await rag_answer(request.message)
+    except OllamaError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+    return RagResponse(
+        response=response,
+        model=settings.ollama_model,
+        sources=[source.__dict__ for source in sources],
+    )

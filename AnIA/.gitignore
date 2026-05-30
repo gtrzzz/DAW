@@ -23,6 +23,14 @@ desktop.ini
 *.log
 logs/
 
+# RAG local/private knowledge
+knowledge/**
+!knowledge/
+!knowledge/**/
+!knowledge/README.md
+!knowledge/**/README.md
+data/chroma/
+
 # Obsidian local
 obsidian/.obsidian/workspace.json
 obsidian/.obsidian/workspace-mobile.json

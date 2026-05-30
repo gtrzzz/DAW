@@ -36,3 +36,24 @@ async def generate_response(prompt: str) -> str:
         raise OllamaError(f"No se pudo generar respuesta con Ollama: {exc}") from exc
 
     return str(data.get("response", "")).strip()
+
+
+async def generate_embedding(text: str) -> list[float]:
+    payload = {
+        "model": settings.rag_embed_model,
+        "prompt": text,
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=settings.request_timeout) as client:
+            response = await client.post(f"{settings.ollama_url}/api/embeddings", json=payload)
+            response.raise_for_status()
+            data = response.json()
+    except httpx.HTTPError as exc:
+        raise OllamaError(f"No se pudo generar embedding con Ollama: {exc}") from exc
+
+    embedding = data.get("embedding")
+    if not isinstance(embedding, list):
+        raise OllamaError("Ollama no devolvio un embedding valido")
+
+    return [float(value) for value in embedding]

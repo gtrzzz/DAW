@@ -1,5 +1,6 @@
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -19,6 +20,12 @@ class Settings:
         "Si el usuario pide una prueba sencilla, responde exactamente a la prueba sin rechazarla.",
     )
     request_timeout: float = float(os.getenv("OLLAMA_TIMEOUT", "120"))
+    rag_embed_model: str = os.getenv("RAG_EMBED_MODEL", "nomic-embed-text")
+    rag_collection: str = os.getenv("RAG_COLLECTION", "ania_knowledge")
+    rag_top_k: int = int(os.getenv("RAG_TOP_K", "5"))
+    project_root: Path = Path(__file__).resolve().parent.parent
+    knowledge_dir: Path = project_root / "knowledge"
+    chroma_dir: Path = project_root / "data" / "chroma"
 
 
 settings = Settings()

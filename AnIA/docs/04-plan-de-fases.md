@@ -59,11 +59,11 @@ Fecha: 30/05/2026
 
 ## Fase 7: RAG
 
-- Investigar embeddings locales.
-- Elegir base vectorial.
-- Indexar documentos Markdown y TXT.
-- Crear endpoint RAG.
-- Integrar RAG con Telegram y web.
+- Investigar embeddings locales. Estado: completado con `nomic-embed-text` como primera opcion.
+- Elegir base vectorial. Estado: completado con ChromaDB.
+- Indexar documentos Markdown y TXT. Estado: implementado.
+- Crear endpoint RAG. Estado: implementado en `/api/rag/chat`.
+- Integrar RAG con Telegram y web. Estado: Telegram implementado con `/rag`; web pendiente.
 
 ## Fase 8: Extras
 

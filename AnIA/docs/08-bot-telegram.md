@@ -75,11 +75,18 @@ Ctrl+C
 ```text
 /start   Mensaje inicial.
 /health  Comprueba que el bot esta vivo y muestra el modelo configurado.
+/rag     Pregunta usando documentos indexados con RAG.
 ```
 
 Los mensajes normales se envian a Ollama y la respuesta vuelve por Telegram.
 
 Si el modelo responde en ingles o rechaza pruebas simples, ajustar `OLLAMA_SYSTEM_PROMPT` en `.env` y reiniciar el bot.
+
+Ejemplo RAG:
+
+```text
+/rag que sabes sobre hipertrofia?
+```
 
 ## Prueba Recomendada
 

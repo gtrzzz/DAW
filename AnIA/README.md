@@ -50,6 +50,7 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Modelo avanzado `qwen3:30b-a3b` instalado y probado.
 - Servicios systemd preparados para ejecucion 24/7.
 - Fase RAG añadida al plan del proyecto.
+- Primera version RAG implementada con ChromaDB y embeddings de Ollama.
 - Pendiente instalar servicios systemd en el portatil.
 - Pendiente crear web.
 - Pendiente crear regla de firewall de Windows como administrador.
