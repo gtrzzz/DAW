@@ -35,6 +35,7 @@ Fecha: 30/05/2026
 - Crear endpoint de chat. Estado: completado en `/api/chat`.
 - Crear endpoint de estado. Estado: completado en `/api/status`.
 - Crear endpoint de salud. Estado: completado en `/api/health`.
+- Validar backend en Linux Mint. Estado: completado.
 
 ## Fase 4: Telegram
 

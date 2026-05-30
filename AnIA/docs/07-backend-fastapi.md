@@ -95,3 +95,27 @@ En produccion local, mas adelante se usara Nginx en el puerto `80` y el puerto `
 - No guardar tokens en codigo ni documentacion.
 - No exponer el backend directamente a internet.
 - Usar red local, Tailscale o Cloudflare Tunnel cuando toque acceso remoto.
+
+## Validacion En Linux Mint
+
+Fecha: 30/05/2026
+
+Validado en el portatil servidor `192.168.1.138`:
+
+- `/api/health` responde `status: ok`.
+- `/api/status` responde correctamente y detecta Ollama.
+- `/api/chat` responde correctamente usando `llama3.1:8b`.
+
+Prueba realizada:
+
+```bash
+curl http://127.0.0.1:8000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Responde solo con OK en espanol."}'
+```
+
+Resultado validado:
+
+```text
+response: OK
+```

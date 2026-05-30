@@ -44,6 +44,7 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Prueba desde Linux Mint realizada correctamente.
 - Portatil servidor preparado con Linux Mint e IP `192.168.1.138`.
 - Backend comun inicial creado con FastAPI.
+- Backend validado en Linux Mint con respuesta `OK` desde Ollama.
 - Pendiente integrar bot y web.
 - Pendiente crear regla de firewall de Windows como administrador.
 
