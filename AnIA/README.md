@@ -51,6 +51,7 @@ obsidian/  Notas y plantillas para abrir como vault de Obsidian.
 - Servicios systemd preparados para ejecucion 24/7.
 - Fase RAG añadida al plan del proyecto.
 - Primera version RAG implementada con ChromaDB y embeddings de Ollama.
+- Estructura RAG para fitness, nutricion e hipertrofia preparada por niveles de calidad de fuente.
 - Pendiente instalar servicios systemd en el portatil.
 - Pendiente crear web.
 - Pendiente crear regla de firewall de Windows como administrador.

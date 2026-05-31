@@ -226,8 +226,14 @@ Entrenar o ajustar un modelo seria otra fase distinta y mucho mas costosa.
 
 - Extraer texto de PDFs.
 - Trocear documentos en chunks.
-- Guardar metadatos de fuente.
+- Guardar metadatos de fuente. Estado: primera version implementada con `source_level`, `source_name` y `category` segun la ruta del documento.
 - Devolver citas o referencias.
+
+### Fase RAG Fitness/Nutricion
+
+- Estructura por niveles de fuente creada en `knowledge/fitness/`.
+- Documento de trabajo creado en `docs/12-rag-fitness-nutricion.md`.
+- El prompt RAG prioriza fuentes `nivel-1` sobre divulgacion y notas propias.
 
 ### Fase RAG 3: Integracion Con Telegram
 

@@ -29,6 +29,7 @@ knowledge/**
 !knowledge/**/
 !knowledge/README.md
 !knowledge/**/README.md
+!knowledge/**/plantilla-*.md
 data/chroma/
 
 # Obsidian local
