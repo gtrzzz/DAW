@@ -514,7 +514,7 @@ Para ordenar las evidencias se toma como referencia la fecha de creación de cad
 
 ## 8. Relación con la programación didáctica
 
-En la documentación existente en `D:\sasp` figuran dos documentos de programación:
+En la documentación aportada figuran dos documentos de programación:
 
 - `Programación Filippo Sostenibilidad 22Enero.pdf`
 - `Programación Filippo Sostenibilidad Actual.pdf`
@@ -586,7 +586,7 @@ Asimismo, se solicita que se entregue al alumno un desglose claro, individualiza
 
 ## 11. Anexo. Índice completo de capturas disponibles
 
-Las siguientes capturas se encuentran en la carpeta `D:\sasp\pruebas`:
+Las siguientes capturas forman parte de las evidencias aportadas:
 
 | N.º | Archivo |
 |---:|---|
