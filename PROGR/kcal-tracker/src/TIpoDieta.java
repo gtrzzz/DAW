@@ -1,0 +1,8 @@
+public enum TipoDieta {
+    NORMAL,
+    HIPOCALORICA,
+    HIPERCALORICA,
+    VEGETARIANA,
+    VEGANA,
+    PERSONALIZADA
+}

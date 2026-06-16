@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Instalación de un juego open source multiplataforma: Unvanquished</title>
+  <style>
+    @page { size: A4; margin: 18mm; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2933;
+      line-height: 1.45;
+      margin: 0;
+      background: #ffffff;
+    }
+    h1, h2, h3 { color: #152238; }
+    h1 {
+      font-size: 25px;
+      border-bottom: 3px solid #3b6ea8;
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+    }
+    h2 {
+      font-size: 19px;
+      margin-top: 26px;
+      border-left: 5px solid #3b6ea8;
+      padding-left: 10px;
+    }
+    h3 { font-size: 16px; margin-top: 18px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 18px;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid #c7d0d9;
+      padding: 8px;
+      vertical-align: top;
+    }
+    th { background: #eef4fb; text-align: left; width: 33%; }
+    ul, ol { padding-left: 22px; }
+    li { margin-bottom: 5px; }
+    .cover {
+      background: linear-gradient(135deg, #152238, #27496d);
+      color: white;
+      padding: 26px;
+      border-radius: 8px;
+      margin-bottom: 22px;
+    }
+    .cover h1 {
+      color: white;
+      border-bottom: 2px solid rgba(255,255,255,0.45);
+      margin-top: 0;
+    }
+    .small { font-size: 13px; color: #4c5967; }
+    .note {
+      background: #fff8e5;
+      border: 1px solid #f2d48a;
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin: 12px 0;
+    }
+    .screenshot {
+      border: 2px dashed #8a99a8;
+      background: #f7f9fb;
+      padding: 18px;
+      min-height: 80px;
+      margin: 8px 0 16px;
+      border-radius: 6px;
+      color: #415163;
+      font-size: 14px;
+    }
+    .screenshot img {
+      display: block;
+      width: 100%;
+      max-height: 520px;
+      object-fit: contain;
+      border: 1px solid #c7d0d9;
+      background: white;
+    }
+    .caption {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #4c5967;
+    }
+    .ok { color: #17633a; font-weight: bold; }
+    .warn { color: #8a5a00; font-weight: bold; }
+    code { background: #eef1f5; padding: 1px 4px; border-radius: 3px; }
+    .page-break { page-break-before: always; }
+  </style>
+</head>
+<body>
+  <div class="cover">
+    <h1>Instalación de un juego open source multiplataforma</h1>
+    <p><strong>Juego elegido:</strong> Unvanquished</p>
+    <p><strong>Actividad:</strong> Instalación y documentación de un juego open source</p>
+    <p><strong>Sistema usado:</strong> Windows 11 / Windows NT 10.0.26200</p>
+  </div>
+
+  <h2>Parte 1. Búsqueda de información</h2>
+  <p>
+    Unvanquished es un videojuego gratuito y de código abierto que combina acción en primera persona con elementos de estrategia en tiempo real. En el juego se enfrentan dos bandos: humanos tecnológicamente avanzados y alienígenas adaptables. El objetivo principal es destruir la base enemiga mientras se construyen estructuras y se mejora el equipo o las habilidades.
+  </p>
+
+  <table>
+    <tr><th>Nombre del juego</th><td>Unvanquished</td></tr>
+    <tr><th>Tipo de juego</th><td>FPS/RTS híbrido. Es un shooter en primera persona con construcción de bases y estrategia en tiempo real.</td></tr>
+    <tr><th>Sistemas operativos compatibles</th><td>Windows, GNU/Linux y macOS.</td></tr>
+    <tr><th>Tipo de licencia</th><td>Código abierto. El repositorio incluye licencia GPL para el código del juego y del motor Daemon. Los recursos/artes pueden tener licencias específicas.</td></tr>
+    <tr><th>Página oficial</th><td><a href="https://unvanquished.net/">https://unvanquished.net/</a></td></tr>
+    <tr><th>Repositorio</th><td><a href="https://github.com/Unvanquished/Unvanquished">https://github.com/Unvanquished/Unvanquished</a></td></tr>
+    <tr><th>Requisitos mínimos aproximados</th><td>Procesador de doble núcleo, 4 GB de RAM, tarjeta gráfica compatible con OpenGL, unos 2 GB de espacio libre y conexión a Internet para el modo multijugador. En Windows se recomienda una versión moderna de 64 bits.</td></tr>
+  </table>
+
+  <h2>Parte 2. Comprobaciones tras la instalación</h2>
+  <table>
+    <tr><th>¿Se ha instalado correctamente?</th><td><span class="ok">Sí.</span> La instalación finalizó y el juego quedó disponible para ejecutarse desde la carpeta descargada.</td></tr>
+    <tr><th>Origen de instalación</th><td>Desde navegador web, usando la página oficial de descarga de Unvanquished. También existen alternativas mediante Flatpak en Linux o descarga desde GitHub/SourceForge.</td></tr>
+    <tr><th>Permisos o confirmaciones solicitadas</th><td>Al descargar el juego apareció una advertencia indicando que había que asegurarse de que la descarga era segura porque no era una descarga conocida. No se detectó ningún tipo de malware. Para jugar en red local también fue necesario revisar el firewall de Windows.</td></tr>
+    <tr><th>Acceso directo o entrada en el menú</th><td>Con la descarga en formato ZIP no se crea automáticamente una entrada en el menú Inicio. El juego se ejecuta desde la carpeta descomprimida. Se puede crear manualmente un acceso directo a <code>daemon.exe</code> o al lanzador correspondiente.</td></tr>
+    <tr><th>¿El juego se ejecuta correctamente?</th><td><span class="ok">Sí.</span> El juego se abre, muestra el menú principal y permite acceder a las opciones de partida.</td></tr>
+    <tr><th>¿Se ha probado en multijugador?</th><td><span class="ok">Sí.</span> Se probó en red LAN usando la red Andared_Corporativo. El servidor no aparecía directamente en la lista de servidores LAN, por lo que otros jugadores tuvieron que entrar desde la consola con el comando <code>/connect IP</code>, usando mi IP de Andared_Corporativo.</td></tr>
+  </table>
+
+  <div class="page-break"></div>
+
+  <h2>Parte 3. Documentación del proceso</h2>
+
+  <h3>1. Datos del software</h3>
+  <table>
+    <tr><th>Nombre</th><td>Unvanquished</td></tr>
+    <tr><th>Licencia</th><td>Open source. Código bajo GPL, según el repositorio oficial.</td></tr>
+    <tr><th>Página oficial</th><td><a href="https://unvanquished.net/">https://unvanquished.net/</a></td></tr>
+    <tr><th>Sistema operativo usado</th><td>Windows 11 / Windows NT 10.0.26200</td></tr>
+  </table>
+
+  <h3>2. Proceso de instalación</h3>
+  <ol>
+    <li>Se abrió el navegador y se buscó el juego escribiendo <strong>Unvanquished open source game</strong>.</li>
+    <li>Se accedió a la página oficial <a href="https://unvanquished.net/">https://unvanquished.net/</a>.</li>
+    <li>Desde la sección <strong>Download</strong> se seleccionó la descarga para Windows.</li>
+    <li>Se descargó el instalador/lanzador del juego desde la página oficial.</li>
+    <li>Se descomprimió el contenido en una carpeta local.</li>
+    <li>Se ejecutó el juego y apareció la pantalla inicial para descargar los archivos necesarios.</li>
+    <li>Si Windows mostró advertencia de seguridad o de descarga desconocida, se revisó el origen del archivo y se continuó al comprobar que procedía de la página oficial.</li>
+    <li>Se comprobó que el menú principal carga correctamente.</li>
+    <li>Se creó una partida local y se probó la conexión en LAN. En la red Andared_Corporativo fue necesario comprobar las IPs con <code>ping</code> y usar <code>/connect</code> desde la consola del juego.</li>
+  </ol>
+
+  <h3>Captura 1. Página oficial del juego</h3>
+  <div class="screenshot">
+    <img src="unv0.png" alt="Página oficial de Unvanquished">
+    <div class="caption">Página oficial de Unvanquished.</div>
+  </div>
+
+  <h3>Captura 2. Página de descarga</h3>
+  <div class="screenshot">
+    <img src="unv0-5.png" alt="Página de descarga de Unvanquished">
+    <div class="caption">Página de descarga del juego.</div>
+  </div>
+
+  <h3>Captura 3. Descarga de archivos del juego</h3>
+  <div class="screenshot">
+    <img src="unv1.png" alt="Pantalla de descarga al ejecutar Unvanquished">
+    <div class="caption">Pantalla que aparece al ejecutar el juego por primera vez para descargar los archivos necesarios.</div>
+  </div>
+
+  <h3>Captura 4. Menú del juego</h3>
+  <div class="screenshot">
+    <img src="unv2.png" alt="Menú principal de Unvanquished">
+    <div class="caption">Menú principal de Unvanquished después de la instalación.</div>
+  </div>
+
+  <h3>Captura 5. Partida local en funcionamiento</h3>
+  <div class="screenshot">
+    <img src="unv3.png" alt="Partida local de Unvanquished en ejecución">
+    <div class="caption">Partida local ya iniciada, con el juego funcionando correctamente.</div>
+  </div>
+
+  <h3>3. Problemas encontrados</h3>
+  <p>
+    Al descargar el juego apareció una advertencia del sistema indicando que había que asegurarse de que la descarga era segura porque no era una descarga conocida. Aun así, el archivo procedía de la página oficial de Unvanquished y no se detectó ningún tipo de malware.
+  </p>
+  <p>
+    El principal problema apareció al intentar jugar en un servidor LAN estando conectado a la red Andared_Corporativo. Para que la conexión funcionara fue necesario desactivar el firewall, comprobar que todas las IPs estaban en el mismo rango y hacer pruebas de conectividad con <code>ping</code> entre mi equipo y los de mis compañeros. Aunque los pings funcionaban, mi servidor no aparecía en la lista de servidores LAN del juego.
+  </p>
+  <p>
+    La solución fue que mis compañeros abrieran la consola del juego y usaran el comando <code>/connect</code> seguido de mi IP de Andared_Corporativo. Después de conectarse de esa forma, la partida LAN funcionó correctamente.
+  </p>
+
+  <h3>4. Conclusión</h3>
+  <p>
+    Unvanquished me parece un juego open source muy entretenido, porque combina mecánicas de shooter con elementos de estrategia. La instalación y ejecución son sencillas si se descarga desde la página oficial, y el juego funciona correctamente una vez completada la descarga de sus archivos.
+  </p>
+  <p>
+    Salvo los problemas de conexión en servidores LAN usando Andared_Corporativo, es un juego fácil de poner en marcha. Aun así, recomiendo leer primero la guía del juego, ya que no incluye un tutorial inicial y al principio puede costar entender bien las clases, construcciones y objetivos de cada equipo.
+  </p>
+
+  <h2>Fuentes consultadas</h2>
+  <ul>
+    <li>Página oficial de Unvanquished: <a href="https://unvanquished.net/">https://unvanquished.net/</a></li>
+    <li>Repositorio oficial en GitHub: <a href="https://github.com/Unvanquished/Unvanquished">https://github.com/Unvanquished/Unvanquished</a></li>
+    <li>Página de descargas: <a href="https://unvanquished.net/download/">https://unvanquished.net/download/</a></li>
+  </ul>
+
+  <p class="small">Documento preparado para la actividad "Instalación y documentación de un juego open source".</p>
+</body>
+</html>
