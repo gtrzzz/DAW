@@ -1,5 +1,6 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        ServidorLocal servidorLocal = new ServidorLocal(8080);
+        servidorLocal.iniciar();
     }
 }

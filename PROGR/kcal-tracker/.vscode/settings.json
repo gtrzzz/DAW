@@ -1,6 +1,18 @@
 {
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
+    "java.jdt.ls.java.home": "C:\\Users\\zzz\\.vscode\\extensions\\redhat.java-1.54.0-win32-x64\\jre\\21.0.10-win32-x86_64",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-21",
+            "path": "C:\\Users\\zzz\\.vscode\\extensions\\redhat.java-1.54.0-win32-x64\\jre\\21.0.10-win32-x86_64",
+            "default": true
+        }
+    ],
+    "terminal.integrated.env.windows": {
+        "JAVA_HOME": "C:\\Users\\zzz\\.vscode\\extensions\\redhat.java-1.54.0-win32-x64\\jre\\21.0.10-win32-x86_64",
+        "PATH": "C:\\Users\\zzz\\.vscode\\extensions\\redhat.java-1.54.0-win32-x64\\jre\\21.0.10-win32-x86_64\\bin;${env:PATH}"
+    },
     "java.project.referencedLibraries": [
         "lib/**/*.jar"
     ]

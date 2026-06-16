@@ -1,8 +1,11 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Atleta {
+public class Atleta implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int id;
     private String nombre;
@@ -22,6 +25,7 @@ public class Atleta {
 
     private Objetivos objetivos;
     private DatosDiaADia datosDiaADia;
+    private String observaciones;
 
     private List<MedicionCorporal> mediciones;
     private List<ValoracionSemanal> valoraciones;
@@ -30,7 +34,7 @@ public class Atleta {
                   double alturaCm, double pesoKg, double porcentajeGrasa,
                   double vo2Max, String trabajo, EstadoCivil estadoCivil,
                   String experienciaPrevia, Objetivos objetivos,
-                  DatosDiaADia datosDiaADia) {
+                  DatosDiaADia datosDiaADia, String observaciones) {
 
         this.id = id;
         this.nombre = nombre;
@@ -45,6 +49,7 @@ public class Atleta {
         this.experienciaPrevia = experienciaPrevia;
         this.objetivos = objetivos;
         this.datosDiaADia = datosDiaADia;
+        this.observaciones = observaciones;
 
         this.lesiones = new ArrayList<>();
         this.enfermedades = new ArrayList<>();
@@ -135,6 +140,10 @@ public class Atleta {
 
     public DatosDiaADia getDatosDiaADia() {
         return datosDiaADia;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
     }
 
     public List<MedicionCorporal> getMediciones() {
