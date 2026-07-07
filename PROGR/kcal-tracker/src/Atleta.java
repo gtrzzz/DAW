@@ -15,6 +15,7 @@ public class Atleta implements Serializable {
     private double pesoKg;
     private double porcentajeGrasa;
     private double vo2Max;
+    private double indiceRuffier;
     private String trabajo;
     private EstadoCivil estadoCivil;
     private String experienciaPrevia;
@@ -25,6 +26,7 @@ public class Atleta implements Serializable {
 
     private Objetivos objetivos;
     private DatosDiaADia datosDiaADia;
+    private PreferenciasNutricion preferenciasNutricion;
     private String observaciones;
 
     private List<MedicionCorporal> mediciones;
@@ -32,9 +34,10 @@ public class Atleta implements Serializable {
 
     public Atleta(int id, String nombre, LocalDate fechaNacimiento, Sexo sexo,
                   double alturaCm, double pesoKg, double porcentajeGrasa,
-                  double vo2Max, String trabajo, EstadoCivil estadoCivil,
+                  double vo2Max, double indiceRuffier, String trabajo, EstadoCivil estadoCivil,
                   String experienciaPrevia, Objetivos objetivos,
-                  DatosDiaADia datosDiaADia, String observaciones) {
+                  DatosDiaADia datosDiaADia, PreferenciasNutricion preferenciasNutricion,
+                  String observaciones) {
 
         this.id = id;
         this.nombre = nombre;
@@ -44,11 +47,13 @@ public class Atleta implements Serializable {
         this.pesoKg = pesoKg;
         this.porcentajeGrasa = porcentajeGrasa;
         this.vo2Max = vo2Max;
+        this.indiceRuffier = indiceRuffier;
         this.trabajo = trabajo;
         this.estadoCivil = estadoCivil;
         this.experienciaPrevia = experienciaPrevia;
         this.objetivos = objetivos;
         this.datosDiaADia = datosDiaADia;
+        this.preferenciasNutricion = preferenciasNutricion;
         this.observaciones = observaciones;
 
         this.lesiones = new ArrayList<>();
@@ -76,6 +81,10 @@ public class Atleta implements Serializable {
 
     public void agregarValoracion(ValoracionSemanal valoracion) {
         valoraciones.add(valoracion);
+    }
+
+    public void actualizarPreferenciasNutricion(PreferenciasNutricion preferenciasNutricion) {
+        this.preferenciasNutricion = preferenciasNutricion;
     }
 
     public int getId() {
@@ -110,6 +119,10 @@ public class Atleta implements Serializable {
         return vo2Max;
     }
 
+    public double getIndiceRuffier() {
+        return indiceRuffier;
+    }
+
     public String getTrabajo() {
         return trabajo;
     }
@@ -140,6 +153,13 @@ public class Atleta implements Serializable {
 
     public DatosDiaADia getDatosDiaADia() {
         return datosDiaADia;
+    }
+
+    public PreferenciasNutricion getPreferenciasNutricion() {
+        if (preferenciasNutricion == null) {
+            return new PreferenciasNutricion("", "", "", "", "", "", "", "", "", 0, 0, false, false);
+        }
+        return preferenciasNutricion;
     }
 
     public String getObservaciones() {

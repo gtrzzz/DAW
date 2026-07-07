@@ -27,6 +27,10 @@ public class Formulario {
         return valores.getOrDefault(clave, "").trim();
     }
 
+    public Map<String, String> todos() {
+        return new HashMap<>(valores);
+    }
+
     public int entero(String clave) {
         String valor = texto(clave);
         if (valor.isEmpty()) {
@@ -41,6 +45,11 @@ public class Formulario {
             return 0;
         }
         return Double.parseDouble(valor);
+    }
+
+    public boolean booleano(String clave) {
+        String valor = texto(clave).toLowerCase();
+        return "si".equals(valor) || "true".equals(valor) || "on".equals(valor) || "1".equals(valor);
     }
 
     public LocalDate fecha(String clave) {

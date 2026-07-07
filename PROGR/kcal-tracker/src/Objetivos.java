@@ -11,9 +11,12 @@ public class Objetivos implements Serializable {
     private String psicologicos;
     private TipoObjetivo tipoObjetivo;
     private NivelActividad nivelActividad;
+    private FisicoObjetivo fisicoObjetivo;
+    private double cambioPesoSemanalKg;
 
     public Objetivos(String corporales, String salud, String rendimiento, String funcionales,
-            String psicologicos, TipoObjetivo tipoObjetivo, NivelActividad nivelActividad) {
+            String psicologicos, TipoObjetivo tipoObjetivo, NivelActividad nivelActividad,
+            FisicoObjetivo fisicoObjetivo, double cambioPesoSemanalKg) {
         this.corporales = corporales;
         this.salud = salud;
         this.rendimiento = rendimiento;
@@ -21,6 +24,8 @@ public class Objetivos implements Serializable {
         this.psicologicos = psicologicos;
         this.tipoObjetivo = tipoObjetivo;
         this.nivelActividad = nivelActividad;
+        this.fisicoObjetivo = fisicoObjetivo;
+        this.cambioPesoSemanalKg = cambioPesoSemanalKg;
     }
 
     public String getCorporales() {
@@ -49,5 +54,16 @@ public class Objetivos implements Serializable {
 
     public NivelActividad getNivelActividad() {
         return nivelActividad;
+    }
+
+    public FisicoObjetivo getFisicoObjetivo() {
+        if (fisicoObjetivo == null) {
+            return FisicoObjetivo.MANTENIMIENTO;
+        }
+        return fisicoObjetivo;
+    }
+
+    public double getCambioPesoSemanalKg() {
+        return cambioPesoSemanalKg;
     }
 }
